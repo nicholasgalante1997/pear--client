@@ -6,20 +6,36 @@ import Card from 'react-bootstrap/Card'
 class Post extends React.Component {
 
     state = {
-        newComment: ""
+        newComment: "",
+        myUser: {}
     }
+
+  componentDidUpdate(prevProps, prevState){
+      if (prevProps.users !== this.props.users){
+          this.findMyUser()
+      }
+  }
 
     handleChange = (e) => {
         this.setState({
             [e.target.name]: e.target.value
         })
     }
+
+    findMyUser = () => {
+        let users = [...this.props.users]
+        let user = users.find(user => user.id === this.props.post.user_id)
+        this.setState({
+            myUser: user
+        })
+    }
+
     render () {
-    console.log(this.props)
+    console.log(this.props, this.state)
     return ( 
         <Row>
             <Card>
-    <Card.Title>{this.props.post.user_id}: {this.props.post.topic}</Card.Title>
+    <Card.Title>{this.state.myUser.username}: {this.props.post.topic}</Card.Title>
     <Card.Body>{this.props.post.text_content}</Card.Body>
     <Card.Body>Comments:</Card.Body>
     <Card.Body>{this.props.post.comments.map((comment) => <Comment {...comment} key={comment.id}/> )}</Card.Body>
