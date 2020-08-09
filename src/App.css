@@ -81,3 +81,8 @@ body {
   justify-content: space-evenly;
   font-size: smaller;
 }
+
+.comment {
+  border-style: dotted;
+  border-radius: 15px;
+}

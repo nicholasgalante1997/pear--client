@@ -22,18 +22,29 @@ class App extends Component {
     javaChallenges: [],
     phpChallenges: [],
     backendChallenges: [],
-    users: []
+    users: [],
+    posts: []
   }
 
   fetchChallenges = () => {
     fetch('http://localhost:3001/api/v1/challenges')
     .then(r => r.json())
-    .then(challenges => this.sortChallenges(challenges))
+    .then(challenges => {
+      this.sortChallenges(challenges)
+      }
+      )
   }
  
   componentDidMount(){
     this.fetchChallenges()
     this.fetchUsers()
+    this.fetchPosts()
+  }
+
+  fetchPosts = () => {
+    fetch('http://localhost:3001/api/v1/posts')
+    .then(r => r.json())
+    .then(posts => this.setState({posts}))
   }
 
   sortChallenges = (challenges) => {
@@ -77,14 +88,14 @@ class App extends Component {
   }
 
   render () {
-    // console.log(this.state)
+    console.log(this.state)
     return (
     <div className="App">
       <NavBar/>
       <Switch>
 
         <Route exact path='/forum' render={(routerProps) => 
-        <ForumContainer {...routerProps} challenges={this.state.challenges} users={this.state.users}/>}/>
+        <ForumContainer {...routerProps} challenges={this.state.challenges} users={this.state.users} posts={this.state.posts}/>}/>
         
         <Route exact path='/login' render={(routerProps) => 
         <AuthContainer {...routerProps} />} />

@@ -10,11 +10,15 @@ class Post extends React.Component {
         myUser: {}
     }
 
-  componentDidUpdate(prevProps, prevState){
-      if (prevProps.users !== this.props.users){
-          this.findMyUser()
-      }
-  }
+//   componentDidUpdate(prevProps, prevState){
+//       if (prevProps.users !== this.props.users){
+//           this.findMyUser()
+//       } 
+//   }
+
+    // componentDidMount(){
+    //     (this.props.users !== undefined && this.findMyUser())
+    // }
 
     handleChange = (e) => {
         this.setState({
@@ -35,10 +39,10 @@ class Post extends React.Component {
     return ( 
         <Row>
             <Card>
-    <Card.Title>{this.state.myUser.username}: {this.props.post.topic}</Card.Title>
+    <Card.Title>{this.props.post.user.username}: {this.props.post.topic}</Card.Title>
     <Card.Body>{this.props.post.text_content}</Card.Body>
     <Card.Body>Comments:</Card.Body>
-    <Card.Body>{this.props.post.comments.map((comment) => <Comment {...comment} key={comment.id}/> )}</Card.Body>
+    <Card.Body>{this.props.post.comments.map((comment) => <Comment {...comment} key={comment.id} users={this.props.users}/> )}</Card.Body>
     <Card.Footer>
         <form className='add-comment'>
             <input name='newComment' value={this.state.newComment} onChange={this.handleChange} placeholder='Add a comment here' type='text'/>

@@ -17,16 +17,6 @@ class ForumContainer extends Component {
         })
     }
 
-    fetchPosts = () => {
-        fetch('http://localhost:3001/api/v1/posts')
-        .then(r => r.json())
-        .then(posts => this.setState({posts}))
-    }
-
-    componentDidMount(){
-        this.fetchPosts()
-    }
-
     render() { 
         console.log(this.props)
         return ( 
@@ -45,7 +35,7 @@ class ForumContainer extends Component {
                         <Col md={4} className='disc-container'>
                             <Card>
                                 <Card.Title>Main Post Container</Card.Title>
-                                <DiscussionContainer posts={this.state.posts} users={this.props.users}/>
+                                <DiscussionContainer posts={this.props.posts} users={this.props.users}/>
                                 <Card.Footer>
                                     <form className='new-post-form'>
                                         <input placeholder='Begin Writing Post' name='newPostContent' value={this.state.newPostContent} onChange={this.handleChange} type='text'/>
