@@ -10,7 +10,8 @@ class ForumContainer extends Component {
         posts: [],
         newPostContent: "",
         newPostTopic: "",
-        showNewThreadContent: false
+        showNewThreadContent: false,
+        newPostsToRender: []
     }
 
     toggleNewThreadContent = () => {
@@ -24,6 +25,33 @@ class ForumContainer extends Component {
     handleChange = (e) => {
         this.setState({
             [e.target.name]: e.target.value
+        })
+    }
+
+    handleSubmit = (event) => {
+        event.preventDefault()
+        fetch('http://localhost:3001/api/v1/posts', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                "Accept": 'application/json'
+            },
+            body: JSON.stringify({
+                user_id: this.props.currentUser.id,
+                topic: this.state.newPostTopic,
+                text_content: this.state.newPostContent
+            })
+        })
+        .then(r => r.json())
+        .then(post => {
+            this.setState(prevState => {
+                return {
+                    newPostContent: "",
+                    newPostTopic: "",
+                    showNewThreadContent: false,
+                    newPostsToRender: [...prevState.newPostsToRender, post]
+                }
+            })
         })
     }
 
@@ -44,7 +72,7 @@ class ForumContainer extends Component {
     }
 
     render() { 
-        console.log(this.props)
+        console.log(this.props, this.state)
         return ( 
             <div>
                 <h2>Welcome To the Forum!</h2>
@@ -61,7 +89,7 @@ class ForumContainer extends Component {
                         <Col md={4} className='disc-container'>
                             <Card>
                                 <Card.Title>Main Post Container</Card.Title>
-                                <DiscussionContainer posts={this.props.posts} users={this.props.users}/>
+                                <DiscussionContainer posts={[...this.props.posts, ...this.state.newPostsToRender]} users={this.props.users}/>
                                {this.state.showNewThreadContent ? this.renderNewThreadForm() : <button onClick={this.toggleNewThreadContent}>Show New Thread Form</button>}
                                
                                
