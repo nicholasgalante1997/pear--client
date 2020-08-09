@@ -7,7 +7,16 @@ class Post extends React.Component {
 
     state = {
         newComment: "",
-        myUser: {}
+        myUser: {},
+        viewComments: false 
+    }
+
+    toggleComments = () => {
+        this.setState(prevState => {
+            return {
+                viewComments: !prevState.viewComments
+            }
+        })
     }
 
 //   componentDidUpdate(prevProps, prevState){
@@ -41,9 +50,14 @@ class Post extends React.Component {
             <Card>
     <Card.Title>{this.props.post.user.username}: {this.props.post.topic}</Card.Title>
     <Card.Body>{this.props.post.text_content}</Card.Body>
+    { this.state.viewComments ? 
+    <>
     <Card.Body>Comments:</Card.Body>
-    <Card.Body>{this.props.post.comments.map((comment) => <Comment {...comment} key={comment.id} users={this.props.users}/> )}</Card.Body>
+    <Card.Body>{this.props.post.comments.map((comment) => <Comment {...comment} key={comment.id} users={this.props.users}/> )}</Card.Body> 
+    </> : 
+    null }
     <Card.Footer>
+        {this.state.viewComments ? <button onClick={this.toggleComments}>Hide Comments</button> : <button onClick={this.toggleComments}>View Comments</button>}
         <form className='add-comment'>
             <input name='newComment' value={this.state.newComment} onChange={this.handleChange} placeholder='Add a comment here' type='text'/>
             <button type='submit'>Comment</button>

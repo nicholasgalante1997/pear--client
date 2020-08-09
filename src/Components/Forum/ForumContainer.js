@@ -8,13 +8,39 @@ import DiscussionContainer from './DiscussionContainer'
 class ForumContainer extends Component {
     state = { 
         posts: [],
-        newPostContent: ""
+        newPostContent: "",
+        newPostTopic: "",
+        showNewThreadContent: false
+    }
+
+    toggleNewThreadContent = () => {
+        this.setState(prevState => {
+            return {
+                showNewThreadContent: !prevState.showNewThreadContent
+            }
+        })
     }
 
     handleChange = (e) => {
         this.setState({
             [e.target.name]: e.target.value
         })
+    }
+
+    renderNewThreadForm = () => {
+      return (  
+        <Card.Footer>
+            <form className='new-post-form' onSubmit={this.handleSubmit}>
+                <strong>New Discussion Form!</strong><br></br>
+                <label>Thread Topic;</label>
+                <input name='newPostTopic' placeholder='Thread Topic' value={this.state.newPostTopic} onChange={this.handleChange} type='text'/>
+                <label>New Post Content</label>
+                <input placeholder='Begin Writing Post' name='newPostContent' value={this.state.newPostContent} onChange={this.handleChange} type='text'/>
+                <button type='submit'>Post</button>
+                <button onClick={this.toggleNewThreadContent}>Hide Form</button>
+            </form>
+        </Card.Footer>
+      );
     }
 
     render() { 
@@ -36,12 +62,15 @@ class ForumContainer extends Component {
                             <Card>
                                 <Card.Title>Main Post Container</Card.Title>
                                 <DiscussionContainer posts={this.props.posts} users={this.props.users}/>
-                                <Card.Footer>
+                               {this.state.showNewThreadContent ? this.renderNewThreadForm() : <button onClick={this.toggleNewThreadContent}>Show New Thread Form</button>}
+                               
+                               
+                                {/* <Card.Footer>
                                     <form className='new-post-form'>
                                         <input placeholder='Begin Writing Post' name='newPostContent' value={this.state.newPostContent} onChange={this.handleChange} type='text'/>
                                         <button type='submit'>Post</button>
                                     </form>
-                                </Card.Footer>
+                                </Card.Footer> */}
                             </Card>
                         </Col>
                         <Col md={4} className='Suggested Challenges'>

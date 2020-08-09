@@ -10,11 +10,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 class App extends Component {
 
   state = {
-    user: {
-      id: 0,
-      username: "",
-      myChallenges: []
-    },
+    currentUser: {},
     challenges: [],
     rubyChallenges: [],
     pythonChallenges: [],
@@ -84,8 +80,13 @@ class App extends Component {
   fetchUsers = () => {
     fetch('http://localhost:3001/api/v1/users')
     .then(r => r.json())
-    .then(users => this.setState({users}))
+    .then(users => this.setState({
+      users: users,
+      // Temporary Current User before setting up Auth and Log In/Sign UP features
+      currentUser: users[0]
+    }))
   }
+
 
   render () {
     console.log(this.state)
@@ -95,7 +96,7 @@ class App extends Component {
       <Switch>
 
         <Route exact path='/forum' render={(routerProps) => 
-        <ForumContainer {...routerProps} challenges={this.state.challenges} users={this.state.users} posts={this.state.posts}/>}/>
+        <ForumContainer {...routerProps} challenges={this.state.challenges} users={this.state.users} posts={this.state.posts} currentUser={this.state.currentUser}/>}/>
         
         <Route exact path='/login' render={(routerProps) => 
         <AuthContainer {...routerProps} />} />
