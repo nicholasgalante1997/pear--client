@@ -86,3 +86,13 @@ body {
   border-style: dotted;
   border-radius: 15px;
 }
+
+.my-challenge {
+  border-style: double;
+  border-radius: 12px;
+}
+
+.post-user {
+  border-style: double;
+  border-radius: 12px;
+}

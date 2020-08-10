@@ -11,7 +11,7 @@ class ChallengesContainer extends Component {
                 <h2>Select A Challenge!</h2>
                 <Row>
                 {this.props.challenges.map(challenge => 
-                    <Challenge challenge={challenge}/>
+                    <Challenge challenge={challenge} currentUser={this.props.currentUser}/>
                 )}
                 </Row>
                

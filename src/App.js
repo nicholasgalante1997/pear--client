@@ -8,6 +8,7 @@ import AuthContainer from './Components/LogIn/AuthContainer'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ChallengesContainer from './Components/Challenges/ChallengesContainer';
 import GenreContainer from './Components/Challenges/GenreShow'
+import UserShow from './Components/UserPage/UserShow'
 
 class App extends Component {
 
@@ -21,7 +22,16 @@ class App extends Component {
     phpChallenges: [],
     backendChallenges: [],
     users: [],
-    posts: []
+    posts: [],
+    allMyChallenges: []
+  }
+
+  fetchMyChallenges = () => {
+    fetch('http://localhost:3001/api/v1/my_challenges')
+    .then(r => r.json())
+    .then(myChallenges => this.setState({
+      allMyChallenges: myChallenges
+    }))
   }
 
   fetchChallenges = () => {
@@ -37,6 +47,7 @@ class App extends Component {
     this.fetchChallenges()
     this.fetchUsers()
     this.fetchPosts()
+    this.fetchMyChallenges()
   }
 
   fetchPosts = () => {
@@ -98,22 +109,22 @@ class App extends Component {
       <Switch>
 
         <Route exact path='/challenges/ruby' render={(routerProps) => 
-        <ChallengesContainer challenges={this.state.rubyChallenges} {...routerProps}/>}/>
+        <ChallengesContainer challenges={this.state.rubyChallenges} {...routerProps} currentUser={this.state.currentUser}/>}/>
 
         <Route exact path='/challenges/nodejs' render={(routerProps) => 
-        <ChallengesContainer challenges={this.state.nodeChallenges} {...routerProps}/>}/>
+        <ChallengesContainer challenges={this.state.nodeChallenges} {...routerProps} currentUser={this.state.currentUser}/>}/>
 
         <Route exact path='/challenges/java' render={(routerProps) => 
-        <ChallengesContainer challenges={this.state.javaChallenges} {...routerProps}/>}/>   
+        <ChallengesContainer challenges={this.state.javaChallenges} {...routerProps} currentUser={this.state.currentUser}/>}/>   
 
         <Route exact path='/challenges/python' render={(routerProps) => 
-        <ChallengesContainer challenges={this.state.pythonChallenges} {...routerProps}/>}/>
+        <ChallengesContainer challenges={this.state.pythonChallenges} {...routerProps} currentUser={this.state.currentUser}/>}/>
 
         <Route exact path='/challenges/backend' render={(routerProps) => 
-        <ChallengesContainer challenges={this.state.backendChallenges} {...routerProps}/>}/>
+        <ChallengesContainer challenges={this.state.backendChallenges} {...routerProps} currentUser={this.state.currentUser}/>}/>
 
         <Route exact path='/challenges/php' render={(routerProps) => 
-        <ChallengesContainer challenges={this.state.phpChallenges} {...routerProps}/>}/>
+        <ChallengesContainer challenges={this.state.phpChallenges} {...routerProps}/>} currentUser={this.state.currentUser}/>
 
         <Route exact path='/forum' render={(routerProps) => 
         <ForumContainer {...routerProps} challenges={this.state.challenges} users={this.state.users} posts={this.state.posts} currentUser={this.state.currentUser}/>}/>
@@ -122,7 +133,7 @@ class App extends Component {
         <AuthContainer {...routerProps} />} />
         
         <Route exact path='/profile' render={(routerProps) => 
-        <h2>User Profile Page</h2>}/>
+        <UserShow currentUser={this.state.currentUser} posts={this.state.posts} {...routerProps} allMyChallenges={this.state.allMyChallenges}/>}/>
         
         {/* <Route exact path='/challenges/:topic' render={(routerProps) => 
         <>
