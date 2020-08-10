@@ -8,7 +8,8 @@ class Post extends React.Component {
     state = {
         newComment: "",
         myUser: {},
-        viewComments: false 
+        viewComments: false,
+        newCommentsToRender: []
     }
 
     toggleComments = () => {
@@ -43,6 +44,31 @@ class Post extends React.Component {
         })
     }
 
+    handleSubmit = (event) => {
+        event.preventDefault()
+        fetch('http://localhost:3001/api/v1/comments', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                "Accept": 'applciation/json'
+            },
+            body: JSON.stringify({
+                user_id: this.props.currentUser.id,
+                post_id: this.props.post.id,
+                text_content: this.state.newComment
+            })
+        })
+        .then(r => r.json())
+        .then(comment => {
+            this.setState(prevState => {
+                return {
+                    newComment: "",
+                    newCommentsToRender: [...prevState.newCommentsToRender, comment]
+                }
+            })
+        })
+    }
+
     render () {
     console.log(this.props, this.state)
     return ( 
@@ -53,12 +79,12 @@ class Post extends React.Component {
     { this.state.viewComments ? 
     <>
     <Card.Body>Comments:</Card.Body>
-    <Card.Body>{this.props.post.comments.map((comment) => <Comment {...comment} key={comment.id} users={this.props.users}/> )}</Card.Body> 
+    <Card.Body>{[...this.props.post.comments, ...this.state.newCommentsToRender].map((comment) => <Comment {...comment} key={comment.id} users={this.props.users}/> )}</Card.Body> 
     </> : 
     null }
     <Card.Footer>
         {this.state.viewComments ? <button onClick={this.toggleComments}>Hide Comments</button> : <button onClick={this.toggleComments}>View Comments</button>}
-        <form className='add-comment'>
+        <form className='add-comment' onSubmit={this.handleSubmit}>
             <input name='newComment' value={this.state.newComment} onChange={this.handleChange} placeholder='Add a comment here' type='text'/>
             <button type='submit'>Comment</button>
         </form>

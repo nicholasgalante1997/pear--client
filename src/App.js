@@ -6,6 +6,8 @@ import NavBar from './Components/Navigation/NavBar'
 import ForumContainer from './Components/Forum/ForumContainer';
 import AuthContainer from './Components/LogIn/AuthContainer'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import ChallengesContainer from './Components/Challenges/ChallengesContainer';
+import GenreContainer from './Components/Challenges/GenreShow'
 
 class App extends Component {
 
@@ -95,6 +97,24 @@ class App extends Component {
       <NavBar/>
       <Switch>
 
+        <Route exact path='/challenges/ruby' render={(routerProps) => 
+        <ChallengesContainer challenges={this.state.rubyChallenges} {...routerProps}/>}/>
+
+        <Route exact path='/challenges/nodejs' render={(routerProps) => 
+        <ChallengesContainer challenges={this.state.nodeChallenges} {...routerProps}/>}/>
+
+        <Route exact path='/challenges/java' render={(routerProps) => 
+        <ChallengesContainer challenges={this.state.javaChallenges} {...routerProps}/>}/>   
+
+        <Route exact path='/challenges/python' render={(routerProps) => 
+        <ChallengesContainer challenges={this.state.pythonChallenges} {...routerProps}/>}/>
+
+        <Route exact path='/challenges/backend' render={(routerProps) => 
+        <ChallengesContainer challenges={this.state.backendChallenges} {...routerProps}/>}/>
+
+        <Route exact path='/challenges/php' render={(routerProps) => 
+        <ChallengesContainer challenges={this.state.phpChallenges} {...routerProps}/>}/>
+
         <Route exact path='/forum' render={(routerProps) => 
         <ForumContainer {...routerProps} challenges={this.state.challenges} users={this.state.users} posts={this.state.posts} currentUser={this.state.currentUser}/>}/>
         
@@ -104,14 +124,14 @@ class App extends Component {
         <Route exact path='/profile' render={(routerProps) => 
         <h2>User Profile Page</h2>}/>
         
-        <Route exact path='/challenges/:topic' render={(routerProps) => 
+        {/* <Route exact path='/challenges/:topic' render={(routerProps) => 
         <>
           <h2>Challenge Topic</h2>
           <p>list of challenges within the topic, and info on each challenge</p>
-        </>}/>
+        </>}/> */}
 
         <Route exact path='/challenges' render={(routerProps) => 
-        <h2>Challenges Topic Card Page</h2>}/>
+        <GenreContainer/>}/>
 
       </Switch>
     </div>

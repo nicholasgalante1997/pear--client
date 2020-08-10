@@ -4,6 +4,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import DiscussionContainer from './DiscussionContainer'
+import {NavLink} from 'react-router-dom'
 
 class ForumContainer extends Component {
     state = { 
@@ -12,6 +13,15 @@ class ForumContainer extends Component {
         newPostTopic: "",
         showNewThreadContent: false,
         newPostsToRender: []
+    }
+
+    randomizeDailyChallenges = () => {
+        let dailyChallenges = []
+        for (let i=0; i < 6; i++) {
+            const randomNumber = Math.floor(Math.random() * this.state.challenges.length)
+            dailyChallenges.push(this.state.challenges[randomNumber])
+        }
+        return dailyChallenges
     }
 
     toggleNewThreadContent = () => {
@@ -84,12 +94,22 @@ class ForumContainer extends Component {
                         <Col md={4} className='side-bar'>
                             <Card>
                                 <Card.Title>Genre Side Bar</Card.Title>
+                                <Card.Body>
+                                    <ul>
+                                        <li><NavLink to='/challenges/ruby'>Ruby & Rails</NavLink></li>
+                                        <li><NavLink to='/challenges/python'>Python</NavLink></li>
+                                        <li><NavLink to='/challenges/nodejs'>Node.Js</NavLink></li>
+                                        <li><NavLink to='/challenges/backend'>NSL; Backend Challenges</NavLink></li>
+                                        <li><NavLink to='/challenges/php'>PHP</NavLink></li>
+                                        <li><NavLink to='/challenges/java'>Java</NavLink></li>
+                                    </ul>
+                                </Card.Body>
                             </Card>
                         </Col>
                         <Col md={4} className='disc-container'>
                             <Card>
                                 <Card.Title>Main Post Container</Card.Title>
-                                <DiscussionContainer posts={[...this.props.posts, ...this.state.newPostsToRender]} users={this.props.users}/>
+                                <DiscussionContainer posts={[...this.props.posts, ...this.state.newPostsToRender]} users={this.props.users} currentUser={this.props.currentUser} />
                                {this.state.showNewThreadContent ? this.renderNewThreadForm() : <button onClick={this.toggleNewThreadContent}>Show New Thread Form</button>}
                                
                                
@@ -104,6 +124,8 @@ class ForumContainer extends Component {
                         <Col md={4} className='Suggested Challenges'>
                             <Card>
                                 <Card.Title>Suggested Challenges</Card.Title>
+                                {(this.state.challenges !== undefined) ? this.randomizeDailyChallenges().map(challenge => 
+                                    <a href={challenge.git_link}>{challenge.title}</a>) : <p>...loading</p>}
                             </Card>
                         </Col>
                     </Row>
