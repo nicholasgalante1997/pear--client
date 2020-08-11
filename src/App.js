@@ -66,7 +66,7 @@ class App extends Component {
           alert(response.errors)
         } else {
         this.setState({
-          currentUser: response.user
+          currentUser: response
         })}
       })
     }
