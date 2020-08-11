@@ -13,7 +13,7 @@ import UserShow from './Components/UserPage/UserShow'
 class App extends Component {
 
   state = {
-    currentUser: {},
+    currentUser: null,
     challenges: [],
     rubyChallenges: [],
     pythonChallenges: [],
@@ -24,6 +24,45 @@ class App extends Component {
     users: [],
     posts: [],
     allMyChallenges: []
+  }  
+  
+  componentDidMount(){
+    this.fetchChallenges()
+    this.fetchUsers()
+    this.fetchPosts()
+    this.fetchMyChallenges()
+  }
+
+  handleAuth = () => {
+    const user_id = localStorage.user_id 
+
+    if (user_id) {
+      fetch('http://localhost:3001/api/v1/auto-login', {
+        headers: {
+          "Authorization": user_id 
+        }
+      })
+      .then(r => r.json())
+      .then(console.log)
+    }
+  }
+
+  logout = () => {
+    this.setState({
+      currentUser: null
+    }, () => {
+      localStorage.removeItem('user_id')
+      this.props.history.push('/login')
+    })
+  }
+
+  setUser = (user) => {
+    this.setState({
+      currentUser: user 
+    }, () => {
+      localStorage.user_id = user.id 
+      this.props.history.push('/forum')
+    })
   }
 
   fetchMyChallenges = () => {
@@ -41,13 +80,6 @@ class App extends Component {
       this.sortChallenges(challenges)
       }
       )
-  }
- 
-  componentDidMount(){
-    this.fetchChallenges()
-    this.fetchUsers()
-    this.fetchPosts()
-    this.fetchMyChallenges()
   }
 
   fetchPosts = () => {
@@ -96,7 +128,7 @@ class App extends Component {
     .then(users => this.setState({
       users: users,
       // Temporary Current User before setting up Auth and Log In/Sign UP features
-      currentUser: users[0]
+      // currentUser: users[0]
     }))
   }
 
@@ -105,7 +137,7 @@ class App extends Component {
     console.log(this.state)
     return (
     <div className="App">
-      <NavBar/>
+      <NavBar logout={this.logout} currentUser={this.state.currentUser}/>
       <Switch>
 
         <Route exact path='/challenges/ruby' render={(routerProps) => 
@@ -130,7 +162,7 @@ class App extends Component {
         <ForumContainer {...routerProps} challenges={this.state.challenges} users={this.state.users} posts={this.state.posts} currentUser={this.state.currentUser}/>}/>
         
         <Route exact path='/login' render={(routerProps) => 
-        <AuthContainer {...routerProps} />} />
+        <AuthContainer {...routerProps} setUser={this.setUser}/>} />
         
         <Route exact path='/profile' render={(routerProps) => 
         <UserShow currentUser={this.state.currentUser} posts={this.state.posts} {...routerProps} allMyChallenges={this.state.allMyChallenges}/>}/>

@@ -9,7 +9,9 @@ class UserShow extends Component {
         note: ""
      }
 
-     
+     handleChange = (event) => this.setState({
+        [event.target.name]: event.target.value
+    })
 
      filterForMyPosts = () => {
          let list = [...this.props.posts].filter(post => post.user_id === this.props.currentUser.id)
@@ -52,7 +54,7 @@ class UserShow extends Component {
                         </>)}
                         <label>Add A Note</label>
                         <form>
-                            <input name='note' value={this.state.note} type='text'/>
+                            <input name='note' value={this.state.note} type='text' onChange={this.handleChange}/>
                         </form>
                         </div>)}
                     </Col>

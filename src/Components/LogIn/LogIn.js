@@ -10,6 +10,22 @@ class LogInForm extends Component {
     handleSubmit = (event) => {
         event.preventDefault()
         // this.props.handleSubmit(this.state)
+        fetch('http://localhost:3001/api/v1/login', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify(this.state)
+        })
+        .then(r => r.json())
+        .then(response => {
+            if (response.errors) {
+                alert(response.errors)
+            } else {
+            this.props.setUser(response)
+            }
+        })
     }
 
     handleChange = (event) => this.setState({

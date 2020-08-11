@@ -10,10 +10,10 @@ const AuthContainer = (props) => {
         <Container fluid>
             <Row>
                 <Col md={6}>
-                    <RegisterForm/>
+                    <RegisterForm {...props}/>
                 </Col>
                 <Col md={6}>
-                    <LogInForm />
+                    <LogInForm {...props}/>
                 </Col>
             </Row>
         </Container>

@@ -12,9 +12,10 @@ const NavBar = (props) => {
             <Navbar.Brand><strong className='nav-item'>Pear 🍐</strong></Navbar.Brand>
             <NavLink to='/forum' className='nav-item'>Forum</NavLink>
             {/* Ternary required below for oscillating log in log out */}
-            <NavLink to='/login' className='nav-item'>Log In / Log Out</NavLink> 
+            <NavLink to='/login' className='nav-item'>Log In / Sign Up</NavLink> 
             <NavLink to='/profile' className='nav-item'>My Page</NavLink>
             <NavLink to='/challenges' className='nav-item'>Challenges Page</NavLink>
+            {props.currentUser ? <button onClick={props.logout}>LogOut</button> : null }
 
          </Navbar>
         </Container>
