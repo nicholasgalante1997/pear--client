@@ -27,12 +27,12 @@ class App extends Component {
   }  
   
   componentDidMount(){
-    const user_id = localStorage.user_id 
+    const token = localStorage.token 
 
-    if (user_id) {
+    if (token) {
       fetch('http://localhost:3001/api/v1/auto_login', {
         headers: {
-          "Authorization": user_id 
+          "Authorization": token
         }
       })
       .then(r => r.json())
@@ -52,12 +52,12 @@ class App extends Component {
   }
 
   handleAuth = () => {
-    const user_id = localStorage.user_id 
+    const token = localStorage.token
 
-    if (user_id) {
+    if (token) {
       fetch('http://localhost:3001/api/v1/auto_login', {
         headers: {
-          "Authorization": user_id 
+          "Authorization": token 
         }
       })
       .then(r => r.json())
@@ -66,7 +66,7 @@ class App extends Component {
           alert(response.errors)
         } else {
         this.setState({
-          currentUser: response
+          currentUser: response.user
         })}
       })
     }
@@ -76,16 +76,16 @@ class App extends Component {
     this.setState({
       currentUser: null
     }, () => {
-      localStorage.removeItem('user_id')
+      localStorage.removeItem('token')
       this.props.history.push('/login')
     })
   }
 
-  setUser = (user) => {
+  setUser = (response) => {
     this.setState({
-      currentUser: user 
+      currentUser: response.user 
     }, () => {
-      localStorage.user_id = user.id 
+      localStorage.token = response.token
       this.props.history.push('/forum')
     })
   }
