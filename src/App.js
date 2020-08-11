@@ -9,6 +9,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import ChallengesContainer from './Components/Challenges/ChallengesContainer';
 import GenreContainer from './Components/Challenges/GenreShow'
 import UserShow from './Components/UserPage/UserShow'
+import * as action from './modules/actions/actionCreators'
+import {connect} from 'react-redux'
 
 class App extends Component {
 
@@ -31,6 +33,8 @@ class App extends Component {
   componentDidUpdate (prevProps, prevState) {
     if (prevState.editPost !== this.state.editPost) {
       this.fetchPosts()
+    } else if (prevState.editComment !== this.state.editComment){
+      this.fetchPosts()
     }
   }
 
@@ -38,6 +42,14 @@ class App extends Component {
     this.setState(prevState => {
       return {
         editPost: !prevState.editPost
+      }
+    })
+  }
+
+  toggleForEditComment = () => {
+    this.setState(prevState => {
+      return {
+        editComment: !prevState.editComment
       }
     })
   }
@@ -126,7 +138,7 @@ class App extends Component {
   fetchPosts = () => {
     fetch('http://localhost:3001/api/v1/posts')
     .then(r => r.json())
-    .then(posts => this.setState({posts}))
+    .then(posts => this.props.setPosts(posts))
   }
 
   sortChallenges = (challenges) => {
@@ -175,7 +187,8 @@ class App extends Component {
 
 
   render () {
-    console.log(this.state)
+
+    // console.log(this.props.posts)
     return (
     <div className="App">
       <NavBar logout={this.logout} currentUser={this.state.currentUser}/>
@@ -200,13 +213,18 @@ class App extends Component {
         <ChallengesContainer challenges={this.state.phpChallenges} {...routerProps}/>} currentUser={this.state.currentUser}/>
 
         <Route exact path='/forum' render={(routerProps) => 
-        <ForumContainer {...routerProps} challenges={this.state.challenges} users={this.state.users} posts={this.state.posts} currentUser={this.state.currentUser} toggleForEditPost={this.toggleForEditPost}/>}/>
+        <ForumContainer {...routerProps}
+         challenges={this.state.challenges} 
+         users={this.state.users} 
+         currentUser={this.state.currentUser} 
+         toggleForEditPost={this.toggleForEditPost}
+         toggleForEditComment={this.toggleForEditComment}/>}/>
         
         <Route exact path='/login' render={(routerProps) => 
         <AuthContainer {...routerProps} setUser={this.setUser}/>} />
         
         <Route exact path='/profile' render={(routerProps) => 
-        <UserShow currentUser={this.state.currentUser} posts={this.state.posts} {...routerProps} allMyChallenges={this.state.allMyChallenges}/>}/>
+        <UserShow currentUser={this.state.currentUser} {...routerProps} allMyChallenges={this.state.allMyChallenges}/>}/>
         
         {/* <Route exact path='/challenges/:topic' render={(routerProps) => 
         <>
@@ -222,4 +240,16 @@ class App extends Component {
   )}
 }
 
-export default App;
+const mapDispatchToProps = dispatch => {
+  return {
+    setPosts: (posts) => dispatch(action.setPosts(posts))
+  }
+}
+
+const mapStateToProps = state => {
+  return {
+    posts: state.posts
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

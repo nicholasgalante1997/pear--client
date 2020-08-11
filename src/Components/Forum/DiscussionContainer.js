@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Post from './Post'
+import {connect} from 'react-redux'
 
 class DiscussionContainer extends Component {
     state = { 
@@ -7,8 +8,8 @@ class DiscussionContainer extends Component {
      }
 
     filterFunc = () => {
+       
         let sortedPosts = [...this.props.posts]
-        // sortedPosts.filter(post => post.topic.includes(this.state.currentTopic))
         return sortedPosts.filter((post) => post.topic.toLowerCase().includes(this.state.currentTopic.toLowerCase()))
     }
 
@@ -19,16 +20,30 @@ class DiscussionContainer extends Component {
     }
 
     render() { 
-        console.log(this.filterFunc())
         return ( 
             <>
                 <p>Search for a Discussion Thread or Start Your Own</p>
                 <input onChange={this.handleChange} name='currentTopic' type='text' value={this.state.currentTopic} placeholder='Search by Topic'/>
-                {this.filterFunc().map(post => <Post post={post} className='post' key={post.id} users={this.props.users} currentUser={this.props.currentUser} toggleForEditPost={this.props.toggleForEditPost}/>)}
+                
+                {this.filterFunc().map(post => <Post 
+                post={post} 
+                className='post' 
+                key={post.id} 
+                users={this.props.users} 
+                currentUser={this.props.currentUser} 
+                toggleForEditPost={this.props.toggleForEditPost}
+                toggleForEditComment={this.props.toggleForEditComment}/>)}
 
             </>
          );
+        
+    }
+}
+
+const mapStateToProps = state => {
+    return {
+        posts: state.posts 
     }
 }
  
-export default DiscussionContainer;
+export default connect(mapStateToProps)(DiscussionContainer);

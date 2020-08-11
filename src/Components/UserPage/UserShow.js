@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import {connect} from 'react-redux'
 
 class UserShow extends Component {
     state = { 
@@ -35,7 +36,7 @@ class UserShow extends Component {
     }
 
     render() { 
-        console.log(this.state)
+        // console.log(this.state)
         return ( 
             <>
             <h2>Welcome {this.props.currentUser.username}</h2>
@@ -72,5 +73,11 @@ class UserShow extends Component {
          );
     }
 }
+
+const mapStateToProps = state => {
+    return {
+        posts: state.posts 
+    }
+}
  
-export default UserShow;
+export default connect(mapStateToProps)(UserShow);

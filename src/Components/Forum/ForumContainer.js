@@ -5,6 +5,8 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import DiscussionContainer from './DiscussionContainer'
 import {NavLink} from 'react-router-dom'
+import * as action from '../../modules/actions/actionCreators'
+import {connect} from 'react-redux'
 
 class ForumContainer extends Component {
     state = { 
@@ -60,9 +62,9 @@ class ForumContainer extends Component {
                     newPostContent: "",
                     newPostTopic: "",
                     showNewThreadContent: false,
-                    newPostsToRender: [...prevState.newPostsToRender, post]
                 }
             })
+            this.props.addPost(post)
         })
     }   else {
         alert('Must be signed in to submit a post')
@@ -113,7 +115,10 @@ class ForumContainer extends Component {
                         <Col md={4} className='disc-container'>
                             <Card>
                                 <Card.Title>Main Post Container</Card.Title>
-                                <DiscussionContainer posts={[...this.props.posts, ...this.state.newPostsToRender]} users={this.props.users} currentUser={this.props.currentUser} toggleForEditPost={this.props.toggleForEditPost}/>
+                                <DiscussionContainer 
+                                users={this.props.users} currentUser={this.props.currentUser} 
+                                toggleForEditPost={this.props.toggleForEditPost}
+                                toggleForEditComment={this.props.toggleForEditComment}/>
                                {this.state.showNewThreadContent ? this.renderNewThreadForm() : <button onClick={this.toggleNewThreadContent}>Show New Thread Form</button>}
                                
                                
@@ -138,5 +143,11 @@ class ForumContainer extends Component {
          );
     }
 }
+
+const mapDispatchToProps = dispatch => {
+    return {
+        addPost: (post) => dispatch(action.addPost(post))
+    }
+}
  
-export default ForumContainer;
+export default connect(null, mapDispatchToProps)(ForumContainer);

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Row from 'react-bootstrap/Row';
 import Comment from './Comment'
 import Card from 'react-bootstrap/Card'
+import * as action from '../../modules/actions/actionCreators'
+import {connect} from 'react-redux'
 
 class Post extends React.Component {
 
@@ -15,45 +17,6 @@ class Post extends React.Component {
         editContent: "",
         editedPostsToRender: {}
     }
-
-    // renderUpatePost = () => {
-    //     if (this.state.editedPostsToRender !== {}) {
-    //     return (
-    //         <Row>
-    //             <Card>
-    //             <Card.Title>{this.props.post.user.username}: {this.state.editedPostsToRender["topic"]}</Card.Title>
-    //                 <Card.Body>{this.state.editedPostsToRender["text_content"]}</Card.Body>
-    //                 <Card.Body>
-    //                 <button onClick={this.toggleEditForm}>⚙️</button>
-    //             { this.state.showEditForm ? this.renderEditForm() : null}
-    //             </Card.Body>
-    //             { this.state.viewComments ? 
-    //             <>
-    //             <Card.Body>Comments:</Card.Body>
-    //             <Card.Body>{[...this.props.post.comments, ...this.state.newCommentsToRender].map((comment) => <Comment {...comment} key={comment.id} users={this.props.users}/> )}</Card.Body> 
-    //             </> : 
-    //             null }
-    //             <Card.Footer>
-    //                 {this.state.viewComments ? <button onClick={this.toggleComments}>Hide Comments</button> : <button onClick={this.toggleComments}>View Comments</button>}
-    //                 <form className='add-comment' onSubmit={this.handleSubmit}>
-    //                     <input name='newComment' value={this.state.newComment} onChange={this.handleChange} placeholder='Add a comment here' type='text'/>
-    //                     <button type='submit'>Comment</button>
-    //                 </form>
-    //             </Card.Footer>
-    //                     </Card>
-    //                     {/* <strong>{props.post.user_id}</strong>
-    //                     <strong>{props.post.topic}</strong>
-    //                     <small>{props.post.text_content}</small>
-    //                     <label>Comments</label>
-    //                     {props.post.comments.map((comment) => <Comment {...comment} />)} */}
-    //         </Row>
-    //     )} else {
-    //         return (
-    //         <>
-    //         </>
-    //         )
-    //     }
-    // }
 
     handleEditSubmit = (event) => {
         event.preventDefault()
@@ -108,16 +71,6 @@ class Post extends React.Component {
         })
     }
 
-//   componentDidUpdate(prevProps, prevState){
-//       if (prevProps.users !== this.props.users){
-//           this.findMyUser()
-//       } 
-//   }
-
-    // componentDidMount(){
-    //     (this.props.users !== undefined && this.findMyUser())
-    // }
-
     handleChange = (e) => {
         this.setState({
             [e.target.name]: e.target.value
@@ -152,8 +105,9 @@ class Post extends React.Component {
             this.setState(prevState => {
                 return {
                     newComment: "",
-                    newCommentsToRender: [...prevState.newCommentsToRender, comment]
                 }
+            }, () => {
+                this.props.addComment(comment)
             })
         })
     } else {
@@ -162,8 +116,6 @@ class Post extends React.Component {
     }
 
     render () {
-    console.log(this.props, this.state)
-    // if (this.state.editedPostsToRender === {}) {
     return ( 
         <Row>
             <Card>
@@ -176,7 +128,7 @@ class Post extends React.Component {
     { this.state.viewComments ? 
     <>
     <Card.Body>Comments:</Card.Body>
-    <Card.Body>{[...this.props.post.comments, ...this.state.newCommentsToRender].map((comment) => <Comment {...comment} key={comment.id} users={this.props.users}/> )}</Card.Body> 
+    <Card.Body>{[...this.props.post.comments, ...this.state.newCommentsToRender].map((comment) => <Comment {...comment} key={comment.id} users={this.props.users} toggleForEditComment={this.props.toggleForEditComment} currentUser={this.props.currentUser}/> )}</Card.Body> 
     </> : 
     null }
     <Card.Footer>
@@ -187,13 +139,14 @@ class Post extends React.Component {
         </form>
     </Card.Footer>
             </Card>
-            {/* <strong>{props.post.user_id}</strong>
-            <strong>{props.post.topic}</strong>
-            <small>{props.post.text_content}</small>
-            <label>Comments</label>
-            {props.post.comments.map((comment) => <Comment {...comment} />)} */}
         </Row> 
      );}
 }
+
+const mapDispatchToProps = dispatch => {
+    return {
+        addComment: (comment) => dispatch(action.addComment(comment))
+    }
+}
  
-export default Post;
+export default connect(null, mapDispatchToProps)(Post);
