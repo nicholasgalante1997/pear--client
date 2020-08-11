@@ -23,8 +23,24 @@ class App extends Component {
     backendChallenges: [],
     users: [],
     posts: [],
-    allMyChallenges: []
+    allMyChallenges: [],
+    editPost: false,
+    editComment: false 
   }  
+
+  componentDidUpdate (prevProps, prevState) {
+    if (prevState.editPost !== this.state.editPost) {
+      this.fetchPosts()
+    }
+  }
+
+  toggleForEditPost = () => {
+    this.setState(prevState => {
+      return {
+        editPost: !prevState.editPost
+      }
+    })
+  }
   
   componentDidMount(){
     const token = localStorage.token 
@@ -184,7 +200,7 @@ class App extends Component {
         <ChallengesContainer challenges={this.state.phpChallenges} {...routerProps}/>} currentUser={this.state.currentUser}/>
 
         <Route exact path='/forum' render={(routerProps) => 
-        <ForumContainer {...routerProps} challenges={this.state.challenges} users={this.state.users} posts={this.state.posts} currentUser={this.state.currentUser}/>}/>
+        <ForumContainer {...routerProps} challenges={this.state.challenges} users={this.state.users} posts={this.state.posts} currentUser={this.state.currentUser} toggleForEditPost={this.toggleForEditPost}/>}/>
         
         <Route exact path='/login' render={(routerProps) => 
         <AuthContainer {...routerProps} setUser={this.setUser}/>} />

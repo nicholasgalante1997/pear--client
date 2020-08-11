@@ -24,7 +24,7 @@ class DiscussionContainer extends Component {
             <>
                 <p>Search for a Discussion Thread or Start Your Own</p>
                 <input onChange={this.handleChange} name='currentTopic' type='text' value={this.state.currentTopic} placeholder='Search by Topic'/>
-                {this.filterFunc().map(post => <Post post={post} className='post' key={post.id} users={this.props.users} currentUser={this.props.currentUser}/>)}
+                {this.filterFunc().map(post => <Post post={post} className='post' key={post.id} users={this.props.users} currentUser={this.props.currentUser} toggleForEditPost={this.props.toggleForEditPost}/>)}
 
             </>
          );

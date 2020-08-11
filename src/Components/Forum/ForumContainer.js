@@ -113,7 +113,7 @@ class ForumContainer extends Component {
                         <Col md={4} className='disc-container'>
                             <Card>
                                 <Card.Title>Main Post Container</Card.Title>
-                                <DiscussionContainer posts={[...this.props.posts, ...this.state.newPostsToRender]} users={this.props.users} currentUser={this.props.currentUser} />
+                                <DiscussionContainer posts={[...this.props.posts, ...this.state.newPostsToRender]} users={this.props.users} currentUser={this.props.currentUser} toggleForEditPost={this.props.toggleForEditPost}/>
                                {this.state.showNewThreadContent ? this.renderNewThreadForm() : <button onClick={this.toggleNewThreadContent}>Show New Thread Form</button>}
                                
                                

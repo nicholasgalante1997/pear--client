@@ -23,7 +23,9 @@ class RegisterForm extends Component {
                 },
                 body: JSON.stringify({
                     username: this.state.username,
-                    password: this.state.password
+                    password: this.state.password,
+                    bio: this.state.bio,
+                    img_url: this.state.img_url
                 })
             })
             .then(r => r.json())
@@ -54,10 +56,10 @@ class RegisterForm extends Component {
                 <label>Password:</label>
                 <input name='password' type='password' value={this.state.password} onChange={this.handleChange} placeholder="Password"/><br></br>
                 <input name='passwordConfirmation' type='password' value={this.state.passwordConfirmation} onChange={this.handleChange} placeholder="Password Confirmation"/><br></br>
-                {/* <label>Tell Us About Yourself!</label>
+                <label>Tell Us About Yourself!</label>
                 <input name='bio' type='text' value={this.state.bio} onChange={this.handleChange} placeholder="Bio..."/><br></br>
                 <label>Avatar</label>
-                <input name='img_url' type='text' value={this.state.img_url} onChange={this.handleChange} placeholder="Avatar Link"/><br></br> */}
+                <input name='img_url' type='text' value={this.state.img_url} onChange={this.handleChange} placeholder="Avatar Link"/><br></br>
                 <button type='submit' className='myButton'>Submit</button>
             </form>
             </Card>
