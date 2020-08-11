@@ -27,6 +27,24 @@ class App extends Component {
   }  
   
   componentDidMount(){
+    const user_id = localStorage.user_id 
+
+    if (user_id) {
+      fetch('http://localhost:3001/api/v1/auto_login', {
+        headers: {
+          "Authorization": user_id 
+        }
+      })
+      .then(r => r.json())
+      .then(response => {
+        if (response.errors) {
+          alert(response.errors)
+        } else {
+        this.setState({
+          currentUser: response
+        })}
+      })
+    }
     this.fetchChallenges()
     this.fetchUsers()
     this.fetchPosts()
@@ -37,13 +55,20 @@ class App extends Component {
     const user_id = localStorage.user_id 
 
     if (user_id) {
-      fetch('http://localhost:3001/api/v1/auto-login', {
+      fetch('http://localhost:3001/api/v1/auto_login', {
         headers: {
           "Authorization": user_id 
         }
       })
       .then(r => r.json())
-      .then(console.log)
+      .then(response => {
+        if (response.errors) {
+          alert(response.errors)
+        } else {
+        this.setState({
+          currentUser: response
+        })}
+      })
     }
   }
 
