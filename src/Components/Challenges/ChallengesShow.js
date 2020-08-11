@@ -6,6 +6,7 @@ class Challenge extends Component {
     state = {  }
 
     addChallenge = () => {
+        if (this.props.currentUser) {
         fetch('http://localhost:3001/api/v1/my_challenges', {
             method: 'POST',
             headers: {
@@ -20,7 +21,9 @@ class Challenge extends Component {
         })
         .then(r => r.json())
         .then(mc => console.log(mc))
-    }
+    } else {
+        alert('dont you fucking think about adding a challenge until you register')
+    }}
 
     render() { 
         return ( 

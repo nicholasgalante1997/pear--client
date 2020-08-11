@@ -40,6 +40,7 @@ class ForumContainer extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault()
+        if (this.props.currentUser) {
         fetch('http://localhost:3001/api/v1/posts', {
             method: 'POST',
             headers: {
@@ -63,6 +64,9 @@ class ForumContainer extends Component {
                 }
             })
         })
+    }   else {
+        alert('Must be signed in to submit a post')
+    }
     }
 
     renderNewThreadForm = () => {

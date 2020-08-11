@@ -46,6 +46,7 @@ class Post extends React.Component {
 
     handleSubmit = (event) => {
         event.preventDefault()
+        if (this.props.currentUser) {
         fetch('http://localhost:3001/api/v1/comments', {
             method: 'POST',
             headers: {
@@ -67,6 +68,9 @@ class Post extends React.Component {
                 }
             })
         })
+    } else {
+        alert('jesus bro sign in already')
+    }
     }
 
     render () {
