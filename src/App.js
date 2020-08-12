@@ -178,11 +178,7 @@ class App extends Component {
   fetchUsers = () => {
     fetch('http://localhost:3001/api/v1/users')
     .then(r => r.json())
-    .then(users => this.setState({
-      users: users,
-      // Temporary Current User before setting up Auth and Log In/Sign UP features
-      // currentUser: users[0]
-    }))
+    .then(users => this.props.setUsers(users))
   }
 
 
@@ -242,13 +238,15 @@ class App extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setPosts: (posts) => dispatch(action.setPosts(posts))
+    setPosts: (posts) => dispatch(action.setPosts(posts)),
+    setUsers: (users) => dispatch(action.setUsers(users))
   }
 }
 
 const mapStateToProps = state => {
   return {
-    posts: state.posts
+    posts: state.posts,
+    users: state.users
   }
 }
 

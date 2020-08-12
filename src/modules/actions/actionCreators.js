@@ -4,4 +4,6 @@ let addPost = post => ({type: 'ADD_POST', payload: {value: post}})
 
 let addComment = comment => ({type: 'ADD_COMMENT', payload: {value: comment}})
 
-export {setPosts, addPost, addComment}
+let setUsers = users => ({type: 'FETCH_USERS', payload: {value: users}})
+
+export {setPosts, addPost, addComment, setUsers}

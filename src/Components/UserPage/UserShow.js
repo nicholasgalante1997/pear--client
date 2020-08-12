@@ -7,7 +7,8 @@ import {connect} from 'react-redux'
 class UserShow extends Component {
     state = { 
         user: {},
-        note: ""
+        note: "",
+        my_challenge_id: 0
      }
 
      handleChange = (event) => this.setState({
@@ -35,6 +36,24 @@ class UserShow extends Component {
         .then(user => this.setState({user}))
     }
 
+    onSubmit = (event) => {
+        event.preventDefault()
+        // console.log(event.target.my_challenge_id.value)
+        fetch('http://localhost:3001/api/v1/notes', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }, 
+            body: JSON.stringify({
+                text: this.state.note,
+                my_challenge_id: event.target.my_challenge_id.value
+            })
+        })
+        .then(r => r.json())
+        .then(console.log)
+    }
+
     render() { 
         // console.log(this.state)
         return ( 
@@ -54,8 +73,10 @@ class UserShow extends Component {
                         <small>{note.text}</small>
                         </>)}
                         <label>Add A Note</label>
-                        <form>
+                        <form onSubmit={this.onSubmit}>
                             <input name='note' value={this.state.note} type='text' onChange={this.handleChange}/>
+                            <input name='my_challenge_id' value={myChallenge.id} type='hidden'/>
+                            <button type='submit'>Submit blah</button>
                         </form>
                         </div>)}
                     </Col>

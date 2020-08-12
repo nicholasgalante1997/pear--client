@@ -149,5 +149,11 @@ const mapDispatchToProps = dispatch => {
         addPost: (post) => dispatch(action.addPost(post))
     }
 }
+
+const mapStateToProps = state => {
+    return {
+        users: state.users
+    }
+}
  
-export default connect(null, mapDispatchToProps)(ForumContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(ForumContainer);

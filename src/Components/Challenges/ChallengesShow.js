@@ -20,9 +20,12 @@ class Challenge extends Component {
             })
         })
         .then(r => r.json())
-        .then(mc => console.log(mc))
+        .then(mc => {
+            console.log(mc)
+            alert(`${mc.challenge.title} has been added to your challenges.`)
+        })
     } else {
-        alert('dont you fucking think about adding a challenge until you register')
+        alert('dont you think about adding a challenge until you register')
     }}
 
     render() { 

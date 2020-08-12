@@ -7,9 +7,10 @@ const posts = (state=[], action) => {
         case 'ADD_COMMENT': 
         // need to take the comments that are associated with the post
         // and add in new comment 
-       let post = state.find(post => post.id === action.payload.value.post.id)
-        console.log(state, action.payload.value, post)
-            return ""
+            let post = state.find(post => post.id === action.payload.value.post.id)
+            post.comments.push(action.payload.value)
+            console.log(state, action.payload.value, post)
+            return state
         default: 
             return state 
     }
