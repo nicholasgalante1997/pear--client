@@ -121,9 +121,7 @@ class App extends Component {
   fetchMyChallenges = () => {
     fetch('http://localhost:3001/api/v1/my_challenges')
     .then(r => r.json())
-    .then(myChallenges => this.setState({
-      allMyChallenges: myChallenges
-    }))
+    .then(myChallenges => this.props.setMyChallenges(myChallenges))
   }
 
   fetchChallenges = () => {
@@ -220,7 +218,7 @@ class App extends Component {
         <AuthContainer {...routerProps} setUser={this.setUser}/>} />
         
         <Route exact path='/profile' render={(routerProps) => 
-        <UserShow currentUser={this.state.currentUser} {...routerProps} allMyChallenges={this.state.allMyChallenges}/>}/>
+        <UserShow currentUser={this.state.currentUser} {...routerProps} />}/>
         
         {/* <Route exact path='/challenges/:topic' render={(routerProps) => 
         <>
@@ -239,7 +237,8 @@ class App extends Component {
 const mapDispatchToProps = dispatch => {
   return {
     setPosts: (posts) => dispatch(action.setPosts(posts)),
-    setUsers: (users) => dispatch(action.setUsers(users))
+    setUsers: (users) => dispatch(action.setUsers(users)),
+    setMyChallenges: (my_challenges) => dispatch(action.setMyChallenges(my_challenges))
   }
 }
 

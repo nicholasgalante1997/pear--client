@@ -2,14 +2,44 @@ import React, { Component } from 'react';
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import Card from 'react-bootstrap/Card'
+import * as action from '../../modules/actions/actionCreators'
 import {connect} from 'react-redux'
+import MyChallengeShow from './MyChallengeShow'
+import EditUserForm from './EditUserForm'
 
 class UserShow extends Component {
     state = { 
         user: {},
         note: "",
-        my_challenge_id: 0
+        my_challenge_id: 0,
+        showEditForm: false 
      }
+
+     toggleEditFormForUser = () => {
+         this.setState(prevState => {
+             return {
+                 showEditForm: !prevState.showEditForm
+             }
+         })
+     }
+
+     componentDidMount(){
+
+        if (this.props.currentUser) {
+        this.fetchUpdatedMyChallenges()
+        this.filterForMyChallenges()
+        this.fetchNotes()
+        } else {
+            alert('loading')
+        }
+     }
+    
+    fetchNotes = () => {
+        fetch('http://localhost:3001/api/v1/notes')
+        .then(r => r.json())
+        .then(notes => this.props.setNotes(notes))
+    }
 
      handleChange = (event) => this.setState({
         [event.target.name]: event.target.value
@@ -21,13 +51,8 @@ class UserShow extends Component {
      }
 
      filterForMyChallenges = () => {
-         let list = [...this.props.allMyChallenges].filter(myChallenge => myChallenge.user_id === this.props.currentUser.id)
+         let list = [...this.props.my_challenges].filter(myChallenge => myChallenge.user_id === this.props.currentUser.id)
          return list
-     }
-
-     componentDidMount(){
-         this.fetchUpdatedMyChallenges()
-         this.filterForMyChallenges()
      }
 
     fetchUpdatedMyChallenges = () => {
@@ -57,36 +82,61 @@ class UserShow extends Component {
     render() { 
         // console.log(this.state)
         return ( 
+        
             <>
-            <h2>Welcome {this.props.currentUser.username}</h2>
+            {this.props.currentUser ? 
+            <h2>Welcome {this.props.currentUser.username}</h2> : 
+            <strong>loading</strong> }
             <Container fluid>
                 <Row>
                     <Col md={4}>
-                        <h2>MyChallenges</h2>
+                        <Card>
+                        <Card.Header>MyChallenges</Card.Header>
                         {this.filterForMyChallenges().map(myChallenge => 
-                        <div className='my-challenge'>
-                        <p>{myChallenge.challenge.title}</p>
-                        {myChallenge.completed ? <p>Completed: ✅ </p> : <p>Completed: ❌</p>}
-                        {myChallenge.notes.map(note => 
-                        <>
-                        <p>Notes:</p>
-                        <small>{note.text}</small>
-                        </>)}
+                        <Card.Body>
+                        <MyChallengeShow myChallenge={myChallenge} currentUser={this.props.currentUser} key={myChallenge.id}/>
+                            
+                        <Card.Footer>
                         <label>Add A Note</label>
-                        <form onSubmit={this.onSubmit}>
+                        <form onSubmit={this.onSubmit} >
                             <input name='note' value={this.state.note} type='text' onChange={this.handleChange}/>
                             <input name='my_challenge_id' value={myChallenge.id} type='hidden'/>
                             <button type='submit'>Submit blah</button>
                         </form>
-                        </div>)}
+                        </Card.Footer>
+                        </Card.Body>
+                        )}
+                        </Card>
                     </Col>
                     <Col md={4}>
                         <h2>Posts:</h2>
                         {this.filterForMyPosts().map(post => 
-                        <div className='post-user'>
+                        <div className='post-user' key={post.id}>
                         <p>{post.topic}</p>
                         <small>{post.text_content}</small>
                         </div>)}
+                    </Col>
+                    <Col md={4}>
+                        { this.props.currentUser ? 
+                        <Card>
+                            <Card.Img src={this.props.currentUser.img_url} alt=""/>
+                        <Card.Header>My Info</Card.Header>
+                        <Card.Body>
+                        <small>Username: {this.props.currentUser.username}</small>
+                        <br></br>
+                        <small>Bio: {this.props.currentUser.bio}</small>
+                        <br></br>
+                        <small>Languages I Like: {this.props.currentUser.programming_preferences}</small>
+                        <br></br>
+                        </Card.Body>
+                        <Card.Footer>
+                            <button onClick={this.toggleEditFormForUser}>Edit Info</button>
+                            { this.state.showEditForm ? <EditUserForm currentUser={this.props.currentUser}/> : 
+                            null }
+                        </Card.Footer>
+                        </Card> : 
+                        <p>loading</p>
+                        }   
                     </Col>
                 </Row>
             </Container>
@@ -97,8 +147,15 @@ class UserShow extends Component {
 
 const mapStateToProps = state => {
     return {
-        posts: state.posts 
+        posts: state.posts,
+        my_challenges: state.my_challenges
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        setNotes: notes => dispatch(action.setNotes(notes))
     }
 }
  
-export default connect(mapStateToProps)(UserShow);
+export default connect(mapStateToProps, mapDispatchToProps)(UserShow);

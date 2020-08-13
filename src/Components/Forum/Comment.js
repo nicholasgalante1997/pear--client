@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import Container from 'react-bootstrap/Container'
+import {connect} from 'react-redux'
+import * as action from '../../modules/actions/actionCreators'
 
 class Comment extends React.Component {
 
@@ -28,14 +30,17 @@ class Comment extends React.Component {
 
     toggleEditForm = () => {
 
+    if (this.props.currentUser) {
         if (this.props.currentUser.id === this.props.user_id) {
         this.setState(prevState => {
             return {
                 showEditForm: !prevState.showEditForm
             }
         })
-    } else {
-        alert('you can only edit ur own ~comments dude come on')
+        } else {
+            alert('you can only edit ur own ~comments dude come on')
+    }} else {
+        alert('sign in to edit comments')
     }
     }
 
@@ -90,5 +95,11 @@ class Comment extends React.Component {
     
      );}
 }
+
+const mapStateToProps = state => {
+    return {
+        users: state.users
+    }
+}
  
-export default Comment;
+export default connect(mapStateToProps)(Comment);

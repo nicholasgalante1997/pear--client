@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
+import * as action from '../../modules/actions/actionCreators'
+import {connect} from 'react-redux'
 
 class Challenge extends Component {
     state = {  }
@@ -23,6 +25,7 @@ class Challenge extends Component {
         .then(mc => {
             console.log(mc)
             alert(`${mc.challenge.title} has been added to your challenges.`)
+            this.props.addMyChallenge(mc)
         })
     } else {
         alert('dont you think about adding a challenge until you register')
@@ -47,5 +50,11 @@ class Challenge extends Component {
          );
     }
 }
+
+const mapDispatchToProps = dispatch => {
+    return {
+        addMyChallenge: (my_challenge) => dispatch(action.addMyChallenge(my_challenge))
+    }
+}
  
-export default Challenge;
+export default connect(null, mapDispatchToProps)(Challenge);

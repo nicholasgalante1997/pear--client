@@ -38,7 +38,7 @@ class Post extends React.Component {
     }
 
     toggleEditForm = () => {
-
+        if (this.props.currentUser) {
         if (this.props.currentUser.id === this.props.post.user_id) {
         this.setState(prevState => {
             return {
@@ -47,8 +47,9 @@ class Post extends React.Component {
         })
     } else {
         alert('you can only edit ur own posts dude come on')
-    }
-    }
+    }} else {
+        alert('sign in to edit')
+    }}
 
     renderEditForm = () => {
         return (
