@@ -14,18 +14,40 @@ class ForumContainer extends Component {
         newPostContent: "",
         newPostTopic: "",
         showNewThreadContent: false,
-        newPostsToRender: []
     }
 
+    // CONTAINER THREE METHOD FOR SUGGESTED DAILY CONTENT
     randomizeDailyChallenges = () => {
         let dailyChallenges = []
         for (let i=0; i < 6; i++) {
-            const randomNumber = Math.floor(Math.random() * this.state.challenges.length)
-            dailyChallenges.push(this.state.challenges[randomNumber])
+            const randomNumber = Math.floor(Math.random() * this.props.challenges.length)
+            const randomChal = this.props.challenges.find(challenge => challenge.id === randomNumber)
+            dailyChallenges.push(this.props.challenges[randomChal])
         }
         return dailyChallenges
     }
 
+    // LANGUAGE PREFERENCE FOR CURRENTUSER
+    preferredLanguages = () => {
+        let languagePreferences = []
+        if (!!this.props.currentUser && !!this.props.currentUser.programming_preferences) {
+            languagePreferences = this.props.currentUser.programming_preferences.split(" ")
+        }
+        return languagePreferences
+    }
+
+    // HELPER METHOD FOR SEPARATING CHALLENGES
+    preferredChallenges = () => {
+        let languageArray = this.preferredLanguages()
+        let preferredChallenges = []
+        let associatedChallenges = []
+        languageArray.forEach(language => {
+          associatedChallenges = this.props.challenges.filter(challenge => challenge.topic.toLowerCase().includes(language.toLowerCase()))
+        })
+       return associatedChallenges
+    }
+
+    // CHANGES LOCAL STATE TO RENDER FORM FOR SUBMITTING A NEW POST
     toggleNewThreadContent = () => {
         this.setState(prevState => {
             return {
@@ -33,6 +55,8 @@ class ForumContainer extends Component {
             }
         })
     }
+
+    // FORM METHODS
 
     handleChange = (e) => {
         this.setState({
@@ -88,15 +112,17 @@ class ForumContainer extends Component {
     }
 
     render() { 
-        console.log(this.props, this.state)
+        console.log(this.preferredChallenges())
         return ( 
             <div>
                 <h2>Welcome To the Forum!</h2>
                 <br></br>
                 <br></br>
                 <br></br>
+                {/* HOLDS ALL THREE COLUMNS */}
                 <Container fluid>
                     <Row>
+                        {/* FIRST COLUMN IS THE SIDE NAV FOR THE MOVEMENT TO THE CHALLENGES SHOW PAGES  */}
                         <Col md={4} className='side-bar'>
                             <Card>
                                 <Card.Title>Genre Side Bar</Card.Title>
@@ -112,31 +138,44 @@ class ForumContainer extends Component {
                                 </Card.Body>
                             </Card>
                         </Col>
+
+                        {/* SECOND COLUMN IS THE POSTS CONTAINER */}
                         <Col md={4} className='disc-container'>
                             <Card>
                                 <Card.Title>Main Post Container</Card.Title>
-                                <DiscussionContainer 
-                                users={this.props.users} currentUser={this.props.currentUser} 
-                                toggleForEditPost={this.props.toggleForEditPost}
-                                toggleForEditComment={this.props.toggleForEditComment}/>
+                                <Card.Body>
+                                <DiscussionContainer  
+                                currentUser={this.props.currentUser} 
+                                />
+                                </Card.Body>
+                                <Card.Footer>
                                {this.state.showNewThreadContent ? this.renderNewThreadForm() : <button onClick={this.toggleNewThreadContent}>Show New Thread Form</button>}
-                               
-                               
-                                {/* <Card.Footer>
-                                    <form className='new-post-form'>
-                                        <input placeholder='Begin Writing Post' name='newPostContent' value={this.state.newPostContent} onChange={this.handleChange} type='text'/>
-                                        <button type='submit'>Post</button>
-                                    </form>
-                                </Card.Footer> */}
+                               </Card.Footer>
                             </Card>
                         </Col>
+
+                        {/* THIRD COLUMN, CHALLENGE SUGGESTIONS BASED ON CURRENTUSER LANG PREF && SKILL LEVEL */}
                         <Col md={4} className='Suggested Challenges'>
                             <Card>
                                 <Card.Title>Suggested Challenges</Card.Title>
-                                {(this.state.challenges !== undefined) ? this.randomizeDailyChallenges().map(challenge => 
-                                    <a href={challenge.git_link}>{challenge.title}</a>) : <p>...loading</p>}
+                                {this.props.currentUser ? 
+                                        <>
+                                    {(this.props.currentUser.programming_preferences !== null) ? 
+                                    <>
+                                        {this.preferredChallenges().map(challenge => 
+                                            <>
+                                            <strong>{challenge.title}:</strong> 
+                                            <a href={challenge.git_link}>Git Link</a>
+                                            <em>{challenge.topic}</em>
+                                            </>  
+                                        )} 
+                                        </> :
+                                            <p>try adding some langauage preferences on your user page</p> }
+                                        </>
+                                :<p>loading</p>}
                             </Card>
                         </Col>
+
                     </Row>
                 </Container>
             </div>
@@ -157,3 +196,13 @@ const mapStateToProps = state => {
 }
  
 export default connect(mapStateToProps, mapDispatchToProps)(ForumContainer);
+
+
+// REMOVED DURING REDUX REFACTOR
+
+{/* <Card.Footer>
+    <form className='new-post-form'>
+        <input placeholder='Begin Writing Post' name='newPostContent' value={this.state.newPostContent} onChange={this.handleChange} type='text'/>
+        <button type='submit'>Post</button>
+    </form>
+</Card.Footer> */}

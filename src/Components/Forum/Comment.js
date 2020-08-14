@@ -11,9 +11,11 @@ class Comment extends React.Component {
         showEditForm: false
     }
 
+    // EDIT COMMENT PIECES
+
+    // FORM FOR THE EDIT COMMENT FEATURE
     renderEditForm = () => {
-        return (
-            
+        return (         
             <form onSubmit={this.handleEditCommentSubmit}>
                 <label>Edit Content</label>
                 <input type='text' name='editContent' onChange={this.handleChange} placeholder={this.props.text_content} value={this.state.editContent}/>
@@ -28,8 +30,8 @@ class Comment extends React.Component {
         })
     }
 
+    // TOGGLE TO VIEW FORM
     toggleEditForm = () => {
-
     if (this.props.currentUser) {
         if (this.props.currentUser.id === this.props.user_id) {
         this.setState(prevState => {
@@ -44,6 +46,7 @@ class Comment extends React.Component {
     }
     }
 
+    // REDUX REFACTORED TO UPDATE COMMENTS UNIVERSALLY IN STATE 
     handleEditCommentSubmit = (event) => {
         event.preventDefault()
         fetch(`http://localhost:3001/api/v1/comments/${this.props.id}`, {
@@ -58,22 +61,22 @@ class Comment extends React.Component {
         })
         .then(r => r.json())
         .then(comment => {
-            this.props.toggleForEditComment()
-            // console.log(comment)
+           this.props.updateComment(comment)
         })
     }
 
     
+    // LIFE CYCLE METHODS
+    componentDidUpdate(prevProps, prevState){
+        if (prevProps !== this.props){
+            this.findMyUser()
+        }
+    }
 
     componentDidMount(){
         this.findMyUser()
     }
-    // componentDidUpdate (prevProps, prevState) {
-    //     if (prevProps.users !== this.props.users) {
-    //         this.findMyUser()
-    //     }
-    // }
-
+    
     findMyUser = () => {
         let users = [...this.props.users]
         let user = users.find(user => user.id === this.props.user_id)
@@ -83,17 +86,15 @@ class Comment extends React.Component {
     }
 
     render () {
-        // console.log(this.props)
-    return ( 
-        <Container className='comment'> 
-        <p>{this.state.myUser.username} says, </p>
-            <p>"{this.props.text_content}"</p>
-            <button onClick={this.toggleEditForm}>⚙️</button>
-        { this.state.showEditForm ? this.renderEditForm() : null}
-        </Container>
-           
-    
-     );}
+        return ( 
+            <Container className='comment'> 
+            <p>{this.state.myUser.username} says, </p>
+                <p>"{this.props.text_content}"</p>
+                <button onClick={this.toggleEditForm}>⚙️</button>
+            { this.state.showEditForm ? this.renderEditForm() : null}
+            </Container>
+        );
+    }
 }
 
 const mapStateToProps = state => {
@@ -101,5 +102,11 @@ const mapStateToProps = state => {
         users: state.users
     }
 }
+
+const mapDispatchToProps = dispatch => {
+    return {
+        updateComment: (comment) => dispatch(action.updateComment(comment))
+    }
+}
  
-export default connect(mapStateToProps)(Comment);
+export default connect(mapStateToProps, mapDispatchToProps)(Comment);

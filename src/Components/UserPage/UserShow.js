@@ -7,63 +7,60 @@ import * as action from '../../modules/actions/actionCreators'
 import {connect} from 'react-redux'
 import MyChallengeShow from './MyChallengeShow'
 import EditUserForm from './EditUserForm'
+import Post from '../Forum/Post'
 
 class UserShow extends Component {
+
     state = { 
         user: {},
         note: "",
         my_challenge_id: 0,
         showEditForm: false 
-     }
+    }
 
-     toggleEditFormForUser = () => {
-         this.setState(prevState => {
-             return {
-                 showEditForm: !prevState.showEditForm
-             }
-         })
-     }
-
-     componentDidMount(){
-
+    // COMPONENT LIFE CYCLE
+    componentDidMount(){
         if (this.props.currentUser) {
-        this.fetchUpdatedMyChallenges()
-        this.filterForMyChallenges()
-        this.fetchNotes()
+            this.filterForMyChallenges()
+            this.filterForMyPosts()
         } else {
             alert('loading')
         }
-     }
-    
-    fetchNotes = () => {
-        fetch('http://localhost:3001/api/v1/notes')
-        .then(r => r.json())
-        .then(notes => this.props.setNotes(notes))
     }
 
-     handleChange = (event) => this.setState({
-        [event.target.name]: event.target.value
-    })
-
-     filterForMyPosts = () => {
+    // FIND THIS CURRENT USERS POSTS
+    filterForMyPosts = () => {
          let list = [...this.props.posts].filter(post => post.user_id === this.props.currentUser.id)
          return list
-     }
-
-     filterForMyChallenges = () => {
-         let list = [...this.props.my_challenges].filter(myChallenge => myChallenge.user_id === this.props.currentUser.id)
-         return list
-     }
-
-    fetchUpdatedMyChallenges = () => {
-        fetch(`http://localhost:3001/api/v1/users/${this.props.currentUser.id}`)
-        .then(r => r.json())
-        .then(user => this.setState({user}))
     }
 
+    // FIND THIS CURRENT USERS CHALLENGES
+    filterForMyChallenges = () => {
+         let list = [...this.props.my_challenges].filter(myChallenge => myChallenge.user_id === this.props.currentUser.id)
+         return list
+    }
+
+    // PROGRESS TRACKER 
+    progressTracker = () => {
+        let completed = [...this.filterForMyChallenges()].filter(myChallenge => myChallenge.completed === true )
+        return (completed.length / this.filterForMyChallenges().length)
+    }
+
+    progressTrackerEmotions = () => {
+        if (this.progressTracker() >= 0 && this.progressTracker() < 0.5){
+            return "🙄🤕"
+        } else if (this.progressTracker() >= 0.5 && this.progressTracker < 0.75) {
+            return "🤠😮👌"
+        } else if (this.progressTracker() >= 0.75) {
+            return "🔥🥵🧠"
+        } else {
+            return null 
+        }
+    }
+
+    // HANDLE ADDING NOTE TO CHALLENGE
     onSubmit = (event) => {
         event.preventDefault()
-        // console.log(event.target.my_challenge_id.value)
         fetch('http://localhost:3001/api/v1/notes', {
             method: 'POST',
             headers: {
@@ -76,46 +73,74 @@ class UserShow extends Component {
             })
         })
         .then(r => r.json())
-        .then(console.log)
+        .then(note => this.props.addNote(note))
     }
 
+    // HANDLE DISPLAYING THE EDIT USER FORM
+    toggleEditFormForUser = () => {
+        this.setState(prevState => {
+            return {
+                showEditForm: !prevState.showEditForm
+            }
+        })
+   }
+
+    handleChange = (event) => this.setState({
+        [event.target.name]: event.target.value
+    })
+
     render() { 
-        // console.log(this.state)
+        console.log(this.progressTracker())
         return ( 
-        
             <>
+            {/* WELCOME LINE */}
             {this.props.currentUser ? 
             <h2>Welcome {this.props.currentUser.username}</h2> : 
             <strong>loading</strong> }
+            <p>Youve completed {this.progressTracker() * 100} % of your challenges so far! {this.progressTrackerEmotions()}</p>
+
+            {/* BODY OF PAGE */}
             <Container fluid>
                 <Row>
+                    {/* FIRST COLUMN MAPS CHALLENGES */}
                     <Col md={4}>
                         <Card>
-                        <Card.Header>MyChallenges</Card.Header>
-                        {this.filterForMyChallenges().map(myChallenge => 
-                        <Card.Body>
-                        <MyChallengeShow myChallenge={myChallenge} currentUser={this.props.currentUser} key={myChallenge.id}/>
-                            
-                        <Card.Footer>
-                        <label>Add A Note</label>
-                        <form onSubmit={this.onSubmit} >
-                            <input name='note' value={this.state.note} type='text' onChange={this.handleChange}/>
-                            <input name='my_challenge_id' value={myChallenge.id} type='hidden'/>
-                            <button type='submit'>Submit blah</button>
-                        </form>
-                        </Card.Footer>
-                        </Card.Body>
-                        )}
+                            <Card.Header>MyChallenges</Card.Header>
+                        
+                            {this.filterForMyChallenges().map(myChallenge => 
+                                <Card.Body>
+                                    <MyChallengeShow 
+                                    myChallenge={myChallenge} 
+                                    currentUser={this.props.currentUser} 
+                                    key={myChallenge.id}/>
+                                    
+                                    <Card.Footer>
+                                    <label>Add A Note</label>
+                                    <form onSubmit={this.onSubmit} >
+                                        <input name='note' value={this.state.note} type='text' onChange={this.handleChange}/>
+                                        <input name='my_challenge_id' value={myChallenge.id} type='hidden'/>
+                                        <button type='submit'>Submit blah</button>
+                                    </form>
+                                    </Card.Footer>
+                                </Card.Body>
+                            )}
                         </Card>
                     </Col>
+
+                    {/* SECOND COLUMN HANDLES POSTS */}
                     <Col md={4}>
                         <h2>Posts:</h2>
-                        {this.filterForMyPosts().map(post => 
-                        <div className='post-user' key={post.id}>
-                        <p>{post.topic}</p>
-                        <small>{post.text_content}</small>
-                        </div>)}
+
+                        {this.filterForMyPosts().map(post => <Post 
+                        post={post} 
+                        className='post' 
+                        key={post.id} 
+                        users={this.props.users} 
+                        currentUser={this.props.currentUser}/>
+                        )}
                     </Col>
+
+                    {/* THIRD COLUMN HANDLES USER INFO */}
                     <Col md={4}>
                         { this.props.currentUser ? 
                         <Card>
@@ -131,7 +156,9 @@ class UserShow extends Component {
                         </Card.Body>
                         <Card.Footer>
                             <button onClick={this.toggleEditFormForUser}>Edit Info</button>
-                            { this.state.showEditForm ? <EditUserForm currentUser={this.props.currentUser}/> : 
+                            { this.state.showEditForm ? <EditUserForm 
+                            currentUser={this.props.currentUser}
+                            updateCurrentUser={this.props.updateCurrentUser}/> : 
                             null }
                         </Card.Footer>
                         </Card> : 
@@ -154,8 +181,31 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        setNotes: notes => dispatch(action.setNotes(notes))
+        addNote: (note) => dispatch(action.addNote(note))
     }
 }
+
  
 export default connect(mapStateToProps, mapDispatchToProps)(UserShow);
+
+// UNNECESSARY EXTRAS 
+
+    // fetchUpdatedMyChallenges = () => {
+    //     fetch(`http://localhost:3001/api/v1/users/${this.props.currentUser.id}`)
+    //     .then(r => r.json())
+    //     .then(user => this.setState({user}))
+    // }
+    
+    // const mapDispatchToProps = dispatch => {
+    //     return {
+    //         setNotes: notes => dispatch(action.setNotes(notes))
+    //     }
+    // }
+
+    // fetchNotes = () => {
+    //     fetch('http://localhost:3001/api/v1/notes')
+    //     .then(r => r.json())
+    //     .then(notes => this.props.setNotes(notes))
+    // }
+
+               

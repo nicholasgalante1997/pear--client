@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Form from 'react-bootstrap/Form'
 import Card from 'react-bootstrap/Card'
+import * as action from '../../modules/actions/actionCreators'
+import {connect} from 'react-redux'
 
 class RegisterForm extends Component {
     state = {  
@@ -32,6 +34,7 @@ class RegisterForm extends Component {
                     alert(response.errors)
                 } else {
                     this.props.setUser(response)
+                    this.props.addUser(response.user)
                 }
             })
         } else {
@@ -65,5 +68,11 @@ class RegisterForm extends Component {
          );
     }
 }
+
+const mapDispatchToProps = dispatch => {
+    return {
+        addUser: (user) => dispatch(action.addUser(user))
+    }
+}
  
-export default RegisterForm;
+export default connect(null, mapDispatchToProps)(RegisterForm);

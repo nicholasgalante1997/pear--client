@@ -7,6 +7,26 @@ class EditUserForm extends Component {
         programming_preferences: ""
      }
 
+    //  LIFECYCLE
+    componentDidMount(){
+        this.setCurrentUserAttributesToState()
+    }
+
+    componentDidUpdate(prevProps, prevState){
+        if (prevProps.currentUser !== this.props.currentUser){
+            this.setCurrentUserAttributesToState()
+        }
+    }
+
+    // THIS IS A SAFETY CHECK FOR THE EDIT FORM SENDING BLANK VALUES
+    setCurrentUserAttributesToState = () => {
+        this.setState({
+            bio: this.props.currentUser.bio,
+            img_url: this.props.currentUser.img_url,
+            programming_preferences: this.props.currentUser.programming_preferences
+        })
+    }
+
     handleChange = (event) => {
         this.setState({
             [event.target.name]: event.target.value
@@ -24,11 +44,14 @@ class EditUserForm extends Component {
             body: JSON.stringify(this.state)
         })
         .then(r => r.json())
-        .then(response => this.setState({
+        .then(response => {
+            this.setState({
             bio: "",
             img_url: "",
             programming_preferences: ""
-        }))
+        })
+            this.props.updateCurrentUser(response)
+        })
     }
 
     render() { 

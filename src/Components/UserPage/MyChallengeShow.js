@@ -9,6 +9,10 @@ class MyChallengeShow extends React.Component {
 
     }
 
+    filterForMyNotes = () => {
+        return [...this.props.notes].filter(note => note.my_challenge_id === this.props.myChallenge.id)
+    }
+
     handleCompletedChallenge = () => {
         fetch(`http://localhost:3001/api/v1/my_challenges/${this.props.myChallenge.id}`, {
             method: 'PATCH', 
@@ -25,19 +29,24 @@ class MyChallengeShow extends React.Component {
     }
 
     render () {
-    return (
-        // <div className='my-challenge'>
-        <Row>
-        <p>{this.props.myChallenge.challenge.title}:</p>
-        {this.props.myChallenge.completed ? <p>Completed: ✅ </p> : <button onClick={this.handleCompletedChallenge}>Done ? 🥺 👉👈</button>}
-        {this.props.myChallenge.notes.map(note => 
-        <>
-        <p>Notes:</p>
-        <small>{note.text}</small>
-        </>)}
-        </Row>
-        // {/* // </div> */}
-    )}
+        console.log(this.props, this.filterForMyNotes())
+            return (
+                // <div className='my-challenge'>
+                <Row>
+                <p>{this.props.myChallenge.challenge.title}:</p>
+                {this.props.myChallenge.completed ? 
+                <p>Completed: ✅ </p> : 
+                <button onClick={this.handleCompletedChallenge}>Done ? 🥺 👉👈</button>}
+                <p>Notes:</p>
+                <ul>
+                {this.filterForMyNotes().map(note => 
+                <li>{note.text}</li>
+                )}
+                </ul>
+                </Row>
+                // {/* // </div> */}
+            )
+    }
 }
 
 const mapStateToProps = state => {
@@ -52,4 +61,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(null, mapDispatchToProps)(MyChallengeShow);
+export default connect(mapStateToProps, mapDispatchToProps)(MyChallengeShow);

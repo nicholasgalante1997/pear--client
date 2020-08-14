@@ -7,8 +7,9 @@ class DiscussionContainer extends Component {
         currentTopic: ""
      }
 
+
+    // SEARCH BAR FUNCTIONALITY
     filterFunc = () => {
-       
         let sortedPosts = [...this.props.posts]
         return sortedPosts.filter((post) => post.topic.toLowerCase().includes(this.state.currentTopic.toLowerCase()))
     }
@@ -29,10 +30,8 @@ class DiscussionContainer extends Component {
                 post={post} 
                 className='post' 
                 key={post.id} 
-                users={this.props.users} 
                 currentUser={this.props.currentUser} 
-                toggleForEditPost={this.props.toggleForEditPost}
-                toggleForEditComment={this.props.toggleForEditComment}/>)}
+                />)}
 
             </>
          );
@@ -42,7 +41,8 @@ class DiscussionContainer extends Component {
 
 const mapStateToProps = state => {
     return {
-        posts: state.posts 
+        posts: state.posts,
+        users: state.users
     }
 }
  

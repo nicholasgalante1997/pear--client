@@ -9,7 +9,6 @@ class Post extends React.Component {
 
     state = {
         newComment: "",
-        myUser: {},
         viewComments: false,
         newCommentsToRender: [],
         showEditForm: false,
@@ -18,6 +17,11 @@ class Post extends React.Component {
         editedPostsToRender: {}
     }
 
+    // REFACTORED FOR IMMEDIATE RERENDER/UPDATE WITH REDUX
+    // CAUTION: SUBMISSIONN OF EDITED POST WITHOUT REENTRY OF PAST VALUES ENDS UP RESETTING PAST VALUES TO EMPTY BUT DOES UPDATE IMMEDIATELY
+    // THATS A SLIGHT BUG
+
+    // METHODS FOR THE EDIT / PATCH EVENTS FOR POSTS
     handleEditSubmit = (event) => {
         event.preventDefault()
         fetch(`http://localhost:3001/api/v1/posts/${this.props.post.id}`, {
@@ -33,27 +37,28 @@ class Post extends React.Component {
         })
         .then(r => r.json())
         .then(post => {
-            this.props.toggleForEditPost()
+            this.props.updatePost(post)
         })
     }
-
+    
+    // TOGGLE VIEW FOR EDIT FORM
     toggleEditForm = () => {
         if (this.props.currentUser) {
-        if (this.props.currentUser.id === this.props.post.user_id) {
-        this.setState(prevState => {
-            return {
-                showEditForm: !prevState.showEditForm
+            if (this.props.currentUser.id === this.props.post.user_id) {
+            this.setState(prevState => {
+                return {
+                    showEditForm: !prevState.showEditForm
+                }
+            })
+        } else {
+            alert('you can only edit ur own posts dude come on')
             }
-        })
-    } else {
-        alert('you can only edit ur own posts dude come on')
-    }} else {
-        alert('sign in to edit')
-    }}
+        } else {alert('sign in to edit')}
+    }
 
+    // RENDER EDIT
     renderEditForm = () => {
-        return (
-            
+        return (      
             <form onSubmit={this.handleEditSubmit}>
                 <label>Topic:</label>
                 <input name='editTopic' onChange={this.handleChange} type='text' placeholder={this.props.post.topic} value={this.state.editTopic}/>
@@ -63,7 +68,16 @@ class Post extends React.Component {
             </form>
         )
     }
+    
+    handleChange = (e) => {
+            this.setState({
+                [e.target.name]: e.target.value
+            })
+    }
 
+    // COMMENT METHODS
+
+    // TOGGLE VIEW OF COMMENTS
     toggleComments = () => {
         this.setState(prevState => {
             return {
@@ -72,66 +86,65 @@ class Post extends React.Component {
         })
     }
 
-    handleChange = (e) => {
-        this.setState({
-            [e.target.name]: e.target.value
-        })
+    // REDUX METHOD FOR FILTERING THROUGH ALL THE COMMENTS AND RENDERING ONLY THE COMMENTS 
+    // THAT BELONG TO THAT INDIVIDUAL POST 
+    // AND HANDLES AUTO RERENDER OF THE COMMENTS ON ADDING A NEW COMMENT 
+    filterForMyComments = () => {
+        return [...this.props.comments].filter(comment => comment.post_id === this.props.post.id)
     }
-
-    findMyUser = () => {
-        let users = [...this.props.users]
-        let user = users.find(user => user.id === this.props.post.user_id)
-        this.setState({
-            myUser: user
-        })
-    }
-
+    
+    // REFACTORED FOR REDUX
     handleSubmit = (event) => {
         event.preventDefault()
         if (this.props.currentUser) {
-        fetch('http://localhost:3001/api/v1/comments', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                "Accept": 'applciation/json'
-            },
-            body: JSON.stringify({
-                user_id: this.props.currentUser.id,
-                post_id: this.props.post.id,
-                text_content: this.state.newComment
+            fetch('http://localhost:3001/api/v1/comments', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    "Accept": 'applciation/json'
+                },
+                body: JSON.stringify({
+                    user_id: this.props.currentUser.id,
+                    post_id: this.props.post.id,
+                    text_content: this.state.newComment
+                })
             })
-        })
-        .then(r => r.json())
-        .then(comment => {
-            this.setState(prevState => {
-                return {
-                    newComment: "",
-                }
-            }, () => {
-                this.props.addComment(comment)
+            .then(r => r.json())
+            .then(comment => {
+                this.setState(prevState => {
+                    return {
+                        newComment: "",
+                    }
+                }, () => {
+                    this.props.addComment(comment)
+                })
             })
-        })
-    } else {
+        } else {
         alert('jesus bro sign in already')
-    }
+        }
     }
 
     render () {
     return ( 
         <Row>
             <Card>
-    <Card.Title>{this.props.post.user.username}: {this.props.post.topic}</Card.Title>
-    <Card.Body>{this.props.post.text_content}</Card.Body>
-    <Card.Body>
-        <button onClick={this.toggleEditForm}>⚙️</button>
-    { this.state.showEditForm ? this.renderEditForm() : null}
-    </Card.Body>
-    { this.state.viewComments ? 
-    <>
-    <Card.Body>Comments:</Card.Body>
-    <Card.Body>{[...this.props.post.comments, ...this.state.newCommentsToRender].map((comment) => <Comment {...comment} key={comment.id} users={this.props.users} toggleForEditComment={this.props.toggleForEditComment} currentUser={this.props.currentUser}/> )}</Card.Body> 
-    </> : 
-    null }
+                <Card.Title>{this.props.post.user.username}: {this.props.post.topic}</Card.Title>
+                <Card.Body>{this.props.post.text_content}</Card.Body>
+                <Card.Body>
+                    <button onClick={this.toggleEditForm}>⚙️</button>
+                    { this.state.showEditForm ? this.renderEditForm() : null }
+                </Card.Body>
+                { this.state.viewComments ? 
+                <>
+                    <Card.Body>Comments:</Card.Body>
+                    <Card.Body>{this.filterForMyComments().map((comment) => <Comment 
+                    {...comment} 
+                    key={comment.id}  
+                    currentUser={this.props.currentUser}/> )
+                    }
+                    </Card.Body> 
+                </> : 
+                null }
     <Card.Footer>
         {this.state.viewComments ? <button onClick={this.toggleComments}>Hide Comments</button> : <button onClick={this.toggleComments}>View Comments</button>}
         <form className='add-comment' onSubmit={this.handleSubmit}>
@@ -141,13 +154,33 @@ class Post extends React.Component {
     </Card.Footer>
             </Card>
         </Row> 
-     );}
+     );
+    }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        addComment: (comment) => dispatch(action.addComment(comment))
+        addComment: (comment) => dispatch(action.addComment(comment)),
+        updatePost: (post) => dispatch(action.updatePost(post))
+    }
+}
+
+const mapStateToProps = state => {
+    return {
+        comments: state.comments,
+        users: state.users
     }
 }
  
-export default connect(null, mapDispatchToProps)(Post);
+export default connect(mapStateToProps, mapDispatchToProps)(Post);
+
+
+// REDUX REFACTOR EXTRA JUNK 
+
+    // findMyUser = () => {
+    //     let users = [...this.props.users]
+    //     let user = users.find(user => user.id === this.props.post.user_id)
+    //     this.setState({
+    //         myUser: user
+    //     })
+    // }
