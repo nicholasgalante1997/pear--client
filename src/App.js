@@ -1,16 +1,17 @@
 import React, {Component} from 'react';
-import logo from './logo.svg';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import { Route, Switch } from 'react-router-dom'
 import NavBar from './Components/Navigation/NavBar'
 import ForumContainer from './Components/Forum/ForumContainer';
 import AuthContainer from './Components/LogIn/AuthContainer'
-import 'bootstrap/dist/css/bootstrap.min.css';
+import UsersContainer from './Components/AllUsersPage/UsersContainer'
 import ChallengesContainer from './Components/Challenges/ChallengesContainer';
 import GenreContainer from './Components/Challenges/GenreShow'
 import UserShow from './Components/UserPage/UserShow'
 import * as action from './modules/actions/actionCreators'
 import {connect} from 'react-redux'
+import Footer from './Components/Footer/Footer'
 
 class App extends Component {
 
@@ -22,9 +23,7 @@ class App extends Component {
     nodeChallenges: [],
     javaChallenges: [],
     phpChallenges: [],
-    backendChallenges: [],
-    editPost: false,
-    editComment: false 
+    backendChallenges: []
   }  
 
   // COMPONENT LIFECYCLE METHODS
@@ -61,6 +60,7 @@ class App extends Component {
     this.fetchMyChallenges()
     this.fetchNotes()
     this.fetchComments()
+    this.fetchFollows()
   }
 
   // BACKEND FETCHES 
@@ -93,6 +93,12 @@ class App extends Component {
     fetch('http://localhost:3001/api/v1/comments')
     .then(r => r.json())
     .then(comments => this.props.setComments(comments))
+  }
+
+  fetchFollows = () => {
+    fetch('http://localhost:3001/api/v1/follows')
+    .then(r => r.json())
+    .then(follows => this.props.setFollows(follows))
   }
 
   // CHALLENGES CAN LIVE IN LOCAL STORAGE 
@@ -184,6 +190,8 @@ class App extends Component {
     })
   }
 
+  // TOKEN SET AND CURRENT USER SET METHOD FOR NEW USER
+
   // UPDATE CURRENT USER INFO METHOD 
   updateCurrentUser = (user) => {
     this.setState({
@@ -244,9 +252,14 @@ class App extends Component {
         {...routerProps} 
         updateCurrentUser={this.updateCurrentUser}/>}/>
 
-         
+        {/* USER INDEX CONTAINER ROUTE */}
+        <Route exact path='/users' render={(routerProps) => 
+        <UsersContainer {...routerProps}
+        currentUser={this.state.currentUser}/>}/>
 
       </Switch>
+
+      <Footer/>
     </div>
   )}
 }
@@ -257,7 +270,8 @@ const mapDispatchToProps = dispatch => {
     setUsers: (users) => dispatch(action.setUsers(users)),
     setMyChallenges: (my_challenges) => dispatch(action.setMyChallenges(my_challenges)),
     setNotes: (notes) => dispatch(action.setNotes(notes)),
-    setComments: (comments) => dispatch(action.setComments(comments))
+    setComments: (comments) => dispatch(action.setComments(comments)),
+    setFollows: (follows) => dispatch(action.setFollows(follows))
   }
 }
 

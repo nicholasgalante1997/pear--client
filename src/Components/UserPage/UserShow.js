@@ -8,14 +8,45 @@ import {connect} from 'react-redux'
 import MyChallengeShow from './MyChallengeShow'
 import EditUserForm from './EditUserForm'
 import Post from '../Forum/Post'
-
+import FriendRequest from './FriendRequestRow'
 class UserShow extends Component {
 
     state = { 
-        user: {},
+        followers: [],
+        following: [],
         note: "",
-        my_challenge_id: 0,
         showEditForm: false 
+    }
+
+
+    // MOVED OVER FROM USERROWSHOW
+     // LifeCycle Methods
+     componentDidUpdate(prevProps, prevState){
+        if (prevProps !== this.props){
+            this.findMyFollowers()
+            this.findWhoIFollow()
+        }
+    }
+
+    // Set Current User Relationships to Local State
+    findMyFollowers = () => {
+        if (this.props.follows) {
+            let followers = [...this.props.follows].filter(follow => follow.followee_id === this.props.currentUser.id)
+            this.setState({
+                followers: followers
+            })
+        } else {
+            return null 
+        }
+    }
+
+    findWhoIFollow = () => {
+        if (this.props.follows) {
+            let following = [...this.props.follows].filter(follow => follow.follower_id === this.props.currentUser.id)
+            this.setState({
+                following: following
+            })
+        }
     }
 
     // COMPONENT LIFE CYCLE
@@ -90,7 +121,7 @@ class UserShow extends Component {
     })
 
     render() { 
-        console.log(this.progressTracker())
+        console.log(this.props.follows, this.state)
         return ( 
             <>
             {/* WELCOME LINE */}
@@ -103,7 +134,7 @@ class UserShow extends Component {
             <Container fluid>
                 <Row>
                     {/* FIRST COLUMN MAPS CHALLENGES */}
-                    <Col md={4}>
+                    <Col md={3}>
                         <Card>
                             <Card.Header>MyChallenges</Card.Header>
                         
@@ -128,7 +159,7 @@ class UserShow extends Component {
                     </Col>
 
                     {/* SECOND COLUMN HANDLES POSTS */}
-                    <Col md={4}>
+                    <Col md={3}>
                         <h2>Posts:</h2>
 
                         {this.filterForMyPosts().map(post => <Post 
@@ -141,7 +172,7 @@ class UserShow extends Component {
                     </Col>
 
                     {/* THIRD COLUMN HANDLES USER INFO */}
-                    <Col md={4}>
+                    <Col md={3}>
                         { this.props.currentUser ? 
                         <Card>
                             <Card.Img src={this.props.currentUser.img_url} alt=""/>
@@ -165,6 +196,27 @@ class UserShow extends Component {
                         <p>loading</p>
                         }   
                     </Col>
+
+                    {/* FOURTH COLUMN HANDLES FRIENDS */}
+                    <Col>
+                        <p>friend / friend requests col</p>
+                        <Row>
+                            <Col>
+                                <p>Friend Requests</p>
+                                { this.state.followers.length ? 
+                                <>
+                                <p>meep</p>
+                                {this.state.followers.map(follow => <FriendRequest 
+                                friend={follow.follower}/>)}
+                                </> : 
+                                <p>loading</p>}
+                            </Col>
+                            <Col>
+                                <p>put following here rn for clarity </p>
+                                
+                            </Col>
+                        </Row>
+                    </Col>
                 </Row>
             </Container>
             </>
@@ -175,7 +227,8 @@ class UserShow extends Component {
 const mapStateToProps = state => {
     return {
         posts: state.posts,
-        my_challenges: state.my_challenges
+        my_challenges: state.my_challenges,
+        follows: state.follows
     }
 }
 

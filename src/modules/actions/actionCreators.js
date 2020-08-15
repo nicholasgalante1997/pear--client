@@ -25,6 +25,24 @@ let setComments = comments => ({type: 'FETCH_COMMENTS', payload: {value: comment
 let addComment = comment => ({type: 'ADD_COMMENT', payload: {value: comment}})
 let updateComment = comment => ({type: 'UPDATE_COMMENT', payload: {value: comment}})
 
+// FOLLOW ACTIONS
+let setFollows = follows => ({type: 'FETCH_FOLLOWS', payload: {value: follows}})
+let addFollow = follow => ({type: 'ADD_FOLLOW', payload: {value: follow}})
 
 
-export {setPosts, addPost, addComment, setUsers, setMyChallenges, updateMyChallenge, addMyChallenge, setNotes, addNote, setComments, updatePost, updateComment, addUser}
+
+export {setPosts, 
+    addPost, 
+    addComment, 
+    setUsers, 
+    setMyChallenges, 
+    updateMyChallenge, 
+    addMyChallenge, 
+    setNotes, 
+    addNote, 
+    setComments, 
+    updatePost, 
+    updateComment, 
+    addUser, 
+    setFollows,
+    addFollow}

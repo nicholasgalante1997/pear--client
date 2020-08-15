@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import Container from 'react-bootstrap/Container'
 import {connect} from 'react-redux'
 import * as action from '../../modules/actions/actionCreators'
+import Row from 'react-bootstrap/Row';
+import Image from 'react-bootstrap/Image'
+import Col from 'react-bootstrap/Col'
+
 
 class Comment extends React.Component {
 
@@ -87,11 +91,30 @@ class Comment extends React.Component {
 
     render () {
         return ( 
+            // COMMENT CONTAINER
             <Container className='comment'> 
-            <p>{this.state.myUser.username} says, </p>
+            
+            {/* MAIN ROW FOR COMMENT DISPLAY */}
+            <Row>
+                {/* COMMENT USER AVATAR */}
+                <Col>
+                <Image src={this.state.myUser.img_url}/>
+                </Col>
+                {/* COMMENT CONTENT */}
+                <Col>
+                <p>{this.state.myUser.username} says, </p>
                 <p>"{this.props.text_content}"</p>
-                <button onClick={this.toggleEditForm}>⚙️</button>
+                </Col>
+                {/* EDIT COMMENT */}
+                <Col sm={2}>
+                    <button onClick={this.toggleEditForm}>⚙️</button>
+                </Col>
+            </Row>
+
+            {/* ROW FOR EDIT COMMENT FORM */}
+            <Row>
             { this.state.showEditForm ? this.renderEditForm() : null}
+            </Row>
             </Container>
         );
     }

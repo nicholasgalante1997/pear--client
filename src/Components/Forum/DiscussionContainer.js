@@ -20,9 +20,16 @@ class DiscussionContainer extends Component {
         })
     }
 
+    // // Shortcut for SEARCHBAR
+    // quickLookUp = (event) => {
+    //     this.setState({
+    //         currentTopic: event.target.name
+    //     })
+    // }
+
     render() { 
         return ( 
-            <>
+            <div>
                 <p>Search for a Discussion Thread or Start Your Own</p>
                 <input onChange={this.handleChange} name='currentTopic' type='text' value={this.state.currentTopic} placeholder='Search by Topic'/>
                 
@@ -33,7 +40,7 @@ class DiscussionContainer extends Component {
                 currentUser={this.props.currentUser} 
                 />)}
 
-            </>
+            </div>
          );
         
     }

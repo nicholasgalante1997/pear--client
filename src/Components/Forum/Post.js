@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
+import Col from 'react-bootstrap/Col'
+import Image from 'react-bootstrap/Image'
 import Row from 'react-bootstrap/Row';
 import Comment from './Comment'
 import Card from 'react-bootstrap/Card'
 import * as action from '../../modules/actions/actionCreators'
 import {connect} from 'react-redux'
+
 
 class Post extends React.Component {
 
@@ -62,6 +65,7 @@ class Post extends React.Component {
             <form onSubmit={this.handleEditSubmit}>
                 <label>Topic:</label>
                 <input name='editTopic' onChange={this.handleChange} type='text' placeholder={this.props.post.topic} value={this.state.editTopic}/>
+                <br></br>
                 <label>Edit Content</label>
                 <input type='text' name='editContent' onChange={this.handleChange} placeholder={this.props.post.text_content} value={this.state.editContent}/>
                 <button type='submit'>Submit</button>
@@ -124,36 +128,57 @@ class Post extends React.Component {
         }
     }
 
+  
+
     render () {
     return ( 
+        <>
+        {/* MAIN CONTENT ROW */}
         <Row>
-            <Card>
-                <Card.Title>{this.props.post.user.username}: {this.props.post.topic}</Card.Title>
-                <Card.Body>{this.props.post.text_content}</Card.Body>
-                <Card.Body>
+            {/* AVATAR */}
+            <Col sm={3}>
+                <Image src={this.props.post.user.img_url}/>
+            </Col>
+            {/* CONTENT */}
+            <Col>
+                <strong>{this.props.post.user.username}, On <em className='post-topic' name={this.props.post.topic}>{this.props.post.topic}</em>;</strong>
+                <p>{this.props.post.text_content}</p>
+            </Col>
+            {/* EDIT FORM AND VIEW COMMENTS */}
+            <Col sm={3}>
                     <button onClick={this.toggleEditForm}>⚙️</button>
-                    { this.state.showEditForm ? this.renderEditForm() : null }
-                </Card.Body>
-                { this.state.viewComments ? 
+                    <br></br>
+                    {this.state.viewComments ? <button onClick={this.toggleComments}>Hide Comments</button> : <button onClick={this.toggleComments}>View Comments</button>}
+            </Col>
+        </Row>
+
+        <br></br>
+        {/* SECONDARY ROW FOR EDIT POST FORM IF TRYING TO EDIT POST */}
+        <Row>
+            { this.state.showEditForm ? this.renderEditForm() : null }
+        </Row>
+        
+        {/* THIRD ROW FOR COMMENTS AND COMMENTING */}
+        <Row>
+        { this.state.viewComments ? 
                 <>
-                    <Card.Body>Comments:</Card.Body>
-                    <Card.Body>{this.filterForMyComments().map((comment) => <Comment 
+                    <Col sm={2}>Comments:</Col>
+                    <Col>{this.filterForMyComments().map((comment) => <Comment 
                     {...comment} 
                     key={comment.id}  
                     currentUser={this.props.currentUser}/> )
-                    }
-                    </Card.Body> 
+                    } 
+                    <br>
+                    </br>
+                    <form className='add-comment' onSubmit={this.handleSubmit}>
+                    <input name='newComment' value={this.state.newComment} onChange={this.handleChange} placeholder='Add a comment here' type='text'/>
+                    <button type='submit'>Comment</button>
+                    </form>
+                    </Col> 
                 </> : 
                 null }
-    <Card.Footer>
-        {this.state.viewComments ? <button onClick={this.toggleComments}>Hide Comments</button> : <button onClick={this.toggleComments}>View Comments</button>}
-        <form className='add-comment' onSubmit={this.handleSubmit}>
-            <input name='newComment' value={this.state.newComment} onChange={this.handleChange} placeholder='Add a comment here' type='text'/>
-            <button type='submit'>Comment</button>
-        </form>
-    </Card.Footer>
-            </Card>
-        </Row> 
+        </Row>
+        </>
      );
     }
 }
@@ -184,3 +209,33 @@ export default connect(mapStateToProps, mapDispatchToProps)(Post);
     //         myUser: user
     //     })
     // }
+
+ {/* <Row>
+            <Card>
+                <Card.Title>{this.props.post.user.username}: {this.props.post.topic}</Card.Title>
+                <Card.Body>{this.props.post.text_content}</Card.Body>
+                <Card.Body>
+                    <button onClick={this.toggleEditForm}>⚙️</button>
+                    { this.state.showEditForm ? this.renderEditForm() : null }
+                </Card.Body>
+                { this.state.viewComments ? 
+                <>
+                    <Card.Body>Comments:</Card.Body>
+                    <Card.Body>{this.filterForMyComments().map((comment) => <Comment 
+                    {...comment} 
+                    key={comment.id}  
+                    currentUser={this.props.currentUser}/> )
+                    }
+                    </Card.Body> 
+                </> : 
+                null }
+    <Card.Footer>
+        {this.state.viewComments ? <button onClick={this.toggleComments}>Hide Comments</button> : <button onClick={this.toggleComments}>View Comments</button>}
+        <form className='add-comment' onSubmit={this.handleSubmit}>
+            <input name='newComment' value={this.state.newComment} onChange={this.handleChange} placeholder='Add a comment here' type='text'/>
+            <button type='submit'>Comment</button>
+        </form>
+    </Card.Footer>
+            </Card>
+        </Row>  */}
+  

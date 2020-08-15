@@ -36,20 +36,90 @@
     transform: rotate(360deg);
   }
 }
+
+/* MY STYLES */
 body {
-  font-family: Garamond;
+  background-image: linear-gradient(to top, #30cfd0 0%, #330867 100%);
+  text-color: white;
 }
 .nav-bar {
-  background-image: linear-gradient(to top, #1e3c72 0%, #1e3c72 1%, #2a5298 100%);
   justify-content: space-around;
+  font-family: New Century Schoolbook, TeX Gyre Schola, serif;
+  max-height: 70px;
+  border-style: double;
+  border-radius: 12 px,
+
 }
+
 .nav-item {
   padding: 25px;
   color: white; 
-  font-family: Garamond;
+  font-family: New Century Schoolbook, TeX Gyre Schola, serif;
   font-style: italic;
   align-content: space-between;
 }
+
+.disc-container {
+  justify-content: space-evenly;
+  padding: 20px;
+}
+
+.post {
+  justify-content: space-evenly;
+  font-size: smaller;
+  border-style: double;
+  border-radius: 15px;
+}
+
+.comment {
+  border-style: double;
+  border-radius: 15px;
+}
+
+.my-challenge {
+  border-style: double;
+  border-radius: 12px;
+}
+
+.post-user {
+  border-style: double;
+  border-radius: 12px;
+}
+
+.user-row {
+  max-height: 100px;
+}
+
+img {
+  float: left;
+  width:  100px;
+  height: 100px;
+  object-fit: cover;
+}
+
+.user-row-bio {
+  align-items: left;
+}
+
+.scrolling-box {
+  background-color: #eaeaea;
+  display: block;
+  width: 200px;
+  height: 380px;
+  padding: 1em;
+  overflow-y: scroll;
+  text-align: center;
+}
+
+.footer {
+  max-height: 50 px;
+}
+
+.post-topic {
+  color: red;
+}
+
+
 /* .myButton {
 	box-shadow: 3px 4px 0px 0px #899599;
 	background:linear-gradient(to bottom, #ededed 5%, #bab1ba 100%);
@@ -71,28 +141,3 @@ body {
 	position:relative;
 	top:1px;
 } */
-
-.disc-container {
-  justify-content: space-evenly;
-  padding: 20px;
-}
-
-.post {
-  justify-content: space-evenly;
-  font-size: smaller;
-}
-
-.comment {
-  border-style: dotted;
-  border-radius: 15px;
-}
-
-.my-challenge {
-  border-style: double;
-  border-radius: 12px;
-}
-
-.post-user {
-  border-style: double;
-  border-radius: 12px;
-}

@@ -117,13 +117,12 @@ class ForumContainer extends Component {
             <div>
                 <h2>Welcome To the Forum!</h2>
                 <br></br>
-                <br></br>
-                <br></br>
+
                 {/* HOLDS ALL THREE COLUMNS */}
                 <Container fluid>
                     <Row>
                         {/* FIRST COLUMN IS THE SIDE NAV FOR THE MOVEMENT TO THE CHALLENGES SHOW PAGES  */}
-                        <Col md={4} className='side-bar'>
+                        <Col md={3} className='side-bar'>
                             <Card>
                                 <Card.Title>Genre Side Bar</Card.Title>
                                 <Card.Body>
@@ -140,7 +139,7 @@ class ForumContainer extends Component {
                         </Col>
 
                         {/* SECOND COLUMN IS THE POSTS CONTAINER */}
-                        <Col md={4} className='disc-container'>
+                        <Col className='scrolling-box'>
                             <Card>
                                 <Card.Title>Main Post Container</Card.Title>
                                 <Card.Body>
@@ -155,7 +154,7 @@ class ForumContainer extends Component {
                         </Col>
 
                         {/* THIRD COLUMN, CHALLENGE SUGGESTIONS BASED ON CURRENTUSER LANG PREF && SKILL LEVEL */}
-                        <Col md={4} className='Suggested Challenges'>
+                        <Col md={3} className='Suggested Challenges'>
                             <Card>
                                 <Card.Title>Suggested Challenges</Card.Title>
                                 {this.props.currentUser ? 
@@ -178,6 +177,7 @@ class ForumContainer extends Component {
 
                     </Row>
                 </Container>
+                <br></br><br></br><br></br><br></br><br></br>
             </div>
          );
     }
