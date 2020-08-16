@@ -93,7 +93,7 @@ class Comment extends React.Component {
         return ( 
             // COMMENT CONTAINER
             <Container className='comment'> 
-            
+
             {/* MAIN ROW FOR COMMENT DISPLAY */}
             <Row>
                 {/* COMMENT USER AVATAR */}
@@ -107,7 +107,7 @@ class Comment extends React.Component {
                 </Col>
                 {/* EDIT COMMENT */}
                 <Col sm={2}>
-                    <button onClick={this.toggleEditForm}>⚙️</button>
+                    <button className='btn' onClick={this.toggleEditForm}>⚙️</button>
                 </Col>
             </Row>
 

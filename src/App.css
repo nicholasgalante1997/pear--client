@@ -39,8 +39,10 @@
 
 /* MY STYLES */
 body {
-  background-image: linear-gradient(to top, #30cfd0 0%, #330867 100%);
-  text-color: white;
+  background-color: #d5fefd;
+  background-image: linear-gradient(315deg, #d5fefd 0%, #fffcff 74%);
+  color:#007ea7;
+  font-family: New Century Schoolbook, TeX Gyre Schola, serif;
 }
 .nav-bar {
   justify-content: space-around;
@@ -53,11 +55,12 @@ body {
 
 .nav-item {
   padding: 25px;
-  color: white; 
+  color:#007ea7;
   font-family: New Century Schoolbook, TeX Gyre Schola, serif;
   font-style: italic;
   align-content: space-between;
 }
+
 
 .disc-container {
   justify-content: space-evenly;
@@ -113,12 +116,32 @@ img {
 
 .footer {
   max-height: 50 px;
+  color:#007ea7;
+  text-align: center;
+  align-content: center
 }
 
 .post-topic {
   color: red;
 }
 
+.log-in {
+  align-content: center;
+}
+
+.footer-right {
+  padding-left: 975px;
+  font-style: italic;
+}
+
+.genre-container {
+  justify-content: space-around;
+  align-items: center
+}
+
+/* .btn {
+  border-radius: 50%;
+} */
 
 /* .myButton {
 	box-shadow: 3px 4px 0px 0px #899599;

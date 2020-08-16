@@ -68,7 +68,7 @@ class Post extends React.Component {
                 <br></br>
                 <label>Edit Content</label>
                 <input type='text' name='editContent' onChange={this.handleChange} placeholder={this.props.post.text_content} value={this.state.editContent}/>
-                <button type='submit'>Submit</button>
+                <button className='btn' type='submit'>Submit</button>
             </form>
         )
     }
@@ -148,7 +148,7 @@ class Post extends React.Component {
             <Col sm={3}>
                     <button onClick={this.toggleEditForm}>⚙️</button>
                     <br></br>
-                    {this.state.viewComments ? <button onClick={this.toggleComments}>Hide Comments</button> : <button onClick={this.toggleComments}>View Comments</button>}
+                    {this.state.viewComments ? <button className='btn' onClick={this.toggleComments}>Hide Comments</button> : <button onClick={this.toggleComments}>View Comments</button>}
             </Col>
         </Row>
 
@@ -172,7 +172,7 @@ class Post extends React.Component {
                     </br>
                     <form className='add-comment' onSubmit={this.handleSubmit}>
                     <input name='newComment' value={this.state.newComment} onChange={this.handleChange} placeholder='Add a comment here' type='text'/>
-                    <button type='submit'>Comment</button>
+                    <button className='btn' type='submit'>Comment</button>
                     </form>
                     </Col> 
                 </> : 

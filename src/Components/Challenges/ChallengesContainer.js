@@ -38,9 +38,11 @@ class ChallengesContainer extends Component {
     render() { 
         console.log(this.state, this.filterDifficulty())
         return ( 
-            <Container fluid>
+            <Container fluid className='challenge-container'>
                 <h2>Select A Challenge!</h2>
                 <br></br>
+                <br></br>
+
                 {/* DROP DOWN FOR SORT ON DIFFICULTY */}
                 <DropdownButton id="dropdown-basic-button" title="DIFFICULTY">
                     <Dropdown.Item onClick={this.setDifficultyToEasy} name='Easy'>EASY</Dropdown.Item>

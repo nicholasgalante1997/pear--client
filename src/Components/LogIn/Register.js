@@ -10,7 +10,8 @@ class RegisterForm extends Component {
         password: "",
         passwordConfirmation: "",
         bio: "",
-        img_url: ""
+        img_url: "",
+        programming_preferences: ""
     }
 
     handleSubmit = (event) => {
@@ -49,18 +50,21 @@ class RegisterForm extends Component {
     render() { 
         console.log(this.state)
         return (
-            <Card>
+            <Card className='register-form'>
                 <Card.Title>New Guy? Register here, guy.</Card.Title>
             <form onSubmit={this.handleSubmit}>
                 <label>Username:</label>
                 <input name='username' type='text' value={this.state.username} onChange={this.handleChange} placeholder="Username"/><br></br>
                 <label>Password:</label>
                 <input name='password' type='password' value={this.state.password} onChange={this.handleChange} placeholder="Password"/><br></br>
+                <label>Password Confirmation</label>
                 <input name='passwordConfirmation' type='password' value={this.state.passwordConfirmation} onChange={this.handleChange} placeholder="Password Confirmation"/><br></br>
-                {/* <label>Tell Us About Yourself!</label>
+                <label>Tell Us About Yourself!</label>
                 <input name='bio' type='text' value={this.state.bio} onChange={this.handleChange} placeholder="Bio..."/><br></br>
                 <label>Avatar</label>
-                <input name='img_url' type='text' value={this.state.img_url} onChange={this.handleChange} placeholder="Avatar Link"/><br></br> */}
+                <input name='img_url' type='text' value={this.state.img_url} onChange={this.handleChange} placeholder="Avatar Link"/><br></br>
+                <label>And I like to Code in;</label>
+                <input name='programming_preferences' type='text' value={this.state.programming_preferences} onChange={this.handleChange} placeholder="Ruby, Javascript, Python..."/>
                 <button type='submit' className='myButton'>Submit</button>
             </form>
             </Card>

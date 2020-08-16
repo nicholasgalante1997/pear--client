@@ -35,7 +35,7 @@ class LogInForm extends Component {
     render() { 
         console.log(this.state)
         return (
-            <Card>
+            <Card className='log-in-form'>
                 <Card.Title>Returning Guy? No Problem Guy</Card.Title>
                 <form onSubmit={this.handleSubmit}>
                 <label>Username:</label>

@@ -127,31 +127,17 @@ class ForumContainer extends Component {
                                 <Card.Title>Genre Side Bar</Card.Title>
                                 <Card.Body>
                                     <ul>
-                                        <li><NavLink to='/challenges/ruby'>Ruby & Rails</NavLink></li>
-                                        <li><NavLink to='/challenges/python'>Python</NavLink></li>
-                                        <li><NavLink to='/challenges/nodejs'>Node.Js</NavLink></li>
-                                        <li><NavLink to='/challenges/backend'>NSL; Backend Challenges</NavLink></li>
-                                        <li><NavLink to='/challenges/php'>PHP</NavLink></li>
-                                        <li><NavLink to='/challenges/java'>Java</NavLink></li>
+                                        <li><NavLink to='/challenges/ruby'>Ruby & Rails<i class="devicon-ruby-plain-wordmark colored"></i></NavLink></li>
+                                        <li><NavLink to='/challenges/python'>Python <i class="devicon-python-plain-wordmark colored"></i></NavLink></li>
+                                        <li><NavLink to='/challenges/nodejs'>Node.Js <i class="devicon-nodejs-plain"></i></NavLink></li>
+                                        <li><NavLink to='/challenges/backend'>NSL; Backend Challenges <i class="devicon-postgresql-plain-wordmark colored"></i></NavLink></li>
+                                        <li><NavLink to='/challenges/php'>PHP<i class="devicon-php-plain"></i></NavLink></li>
+                                        <li><NavLink to='/challenges/java'>Java <i class="devicon-java-plain"></i></NavLink></li>
                                     </ul>
                                 </Card.Body>
                             </Card>
                         </Col>
 
-                        {/* SECOND COLUMN IS THE POSTS CONTAINER */}
-                        <Col className='scrolling-box'>
-                            <Card>
-                                <Card.Title>Main Post Container</Card.Title>
-                                <Card.Body>
-                                <DiscussionContainer  
-                                currentUser={this.props.currentUser} 
-                                />
-                                </Card.Body>
-                                <Card.Footer>
-                               {this.state.showNewThreadContent ? this.renderNewThreadForm() : <button onClick={this.toggleNewThreadContent}>Show New Thread Form</button>}
-                               </Card.Footer>
-                            </Card>
-                        </Col>
 
                         {/* THIRD COLUMN, CHALLENGE SUGGESTIONS BASED ON CURRENTUSER LANG PREF && SKILL LEVEL */}
                         <Col md={3} className='Suggested Challenges'>
@@ -171,10 +157,24 @@ class ForumContainer extends Component {
                                         </> :
                                             <p>try adding some langauage preferences on your user page</p> }
                                         </>
-                                :<p>loading</p>}
+                                :<p>Please Sign In and Select a Language to Get Personalized Challenges</p>}
                             </Card>
                         </Col>
 
+                        {/* SECOND COLUMN IS THE POSTS CONTAINER */}
+                        <Col className='scrolling-box'>
+                            <Card>
+                                <Card.Title>Main Post Container</Card.Title>
+                                <Card.Body>
+                                <DiscussionContainer  
+                                currentUser={this.props.currentUser} 
+                                />
+                                </Card.Body>
+                                <Card.Footer>
+                               {this.state.showNewThreadContent ? this.renderNewThreadForm() : <button className='btn' onClick={this.toggleNewThreadContent}>Show New Thread Form</button>}
+                               </Card.Footer>
+                            </Card>
+                        </Col>
                     </Row>
                 </Container>
                 <br></br><br></br><br></br><br></br><br></br>
