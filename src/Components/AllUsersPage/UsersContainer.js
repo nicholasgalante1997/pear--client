@@ -27,6 +27,7 @@ class UsersContainer extends Component {
             <small>users index</small>
             <br></br>
             <input name='filter' type='text' value={this.state.filter} placeholder="search for a user mmmkay" onChange={this.handleChange}/>
+            <br></br><br></br><br></br>
             { this.props.users ? 
             <Container fluid>
                 {this.searchUsers().map(user => 

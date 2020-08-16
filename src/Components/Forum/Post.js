@@ -146,9 +146,9 @@ class Post extends React.Component {
             </Col>
             {/* EDIT FORM AND VIEW COMMENTS */}
             <Col sm={3}>
-                    <button onClick={this.toggleEditForm}>⚙️</button>
+                    <button className='btn-setting' onClick={this.toggleEditForm}>⚙️</button>
                     <br></br>
-                    {this.state.viewComments ? <button className='btn' onClick={this.toggleComments}>Hide Comments</button> : <button onClick={this.toggleComments}>View Comments</button>}
+                    {this.state.viewComments ? <button className='btn' onClick={this.toggleComments}>Hide Comments</button> : <button className='btn' onClick={this.toggleComments}>View Comments</button>}
             </Col>
         </Row>
 
@@ -162,7 +162,7 @@ class Post extends React.Component {
         <Row>
         { this.state.viewComments ? 
                 <>
-                    <Col sm={2}>Comments:</Col>
+                    <Col sm={3}>Comments:</Col>
                     <Col>{this.filterForMyComments().map((comment) => <Comment 
                     {...comment} 
                     key={comment.id}  

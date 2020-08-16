@@ -19,7 +19,7 @@ class AuthContainer extends Component {
     }
     render() { 
         return ( 
-            <Container className='log-in' fluid>
+            <Container className='log-in'>
             <Row>
                 <Col>
                     {this.state.register ? <RegisterForm {...this.props}/> : 

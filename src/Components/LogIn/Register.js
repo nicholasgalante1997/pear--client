@@ -26,7 +26,10 @@ class RegisterForm extends Component {
                 },
                 body: JSON.stringify({
                     username: this.state.username,
-                    password: this.state.password
+                    password: this.state.password,
+                    bio: this.state.bio,
+                    img_url: this.state.img_url,
+                    programming_preferences: this.state.programming_preferences
                 })
             })
             .then(r => r.json())

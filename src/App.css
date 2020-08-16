@@ -59,8 +59,8 @@ body {
 .nav-bar {
   justify-content: space-around;
   /* font-family: New Century Schoolbook, TeX Gyre Schola, serif; */
+  background-color: #d9e3fe;
   max-height: 70px;
-  border-style: double;
   border-radius: 12 px,
 
 }
@@ -117,7 +117,7 @@ img {
 }
 
 .scrolling-box {
-  background-color: #eaeaea;
+  background-color: #9abbfe;
   display: block;
   width: 200px;
   height: 380px;
@@ -127,7 +127,7 @@ img {
 }
 
 .footer {
-  max-height: 50 px;
+  max-height: 40 px;
   color:#007ea7;
   text-align: center;
   align-content: center
@@ -139,10 +139,11 @@ img {
 
 .log-in {
   align-content: center;
+  max-width: 300px;
 }
 
 .footer-right {
-  padding-left: 975px;
+  padding-left: 850px;
   font-style: italic;
 }
 
@@ -151,10 +152,118 @@ img {
   align-items: center
 }
 
-/* .btn {
-  border-radius: 50%;
-} */
+.btn {
+  border-radius: 18%;
+  background: yellow
+}
 
+.btn-setting{
+  border-radius: 18%;
+  background: blue
+}
+
+.profile-avi {
+  border-radius: 50%;
+}
+
+.welcome-user {
+  padding-left: 87px;
+}
+
+.user-challenge-container {
+  border-style: dashed
+}
+
+.top-row {
+  height: 275px;
+  background-color: #D5F3FE;
+  border-radius: 15px;
+}
+
+.bottom-row {
+  height: 275px;
+  background-color: #D5F3FE;
+  border-radius: 15px;
+}
+
+.my-challenge-table {
+  display: block;
+  width: 600px;
+  height: 250px;
+  padding: 1em;
+  overflow-y: scroll;
+  text-align: center;
+  border-radius: 15px;
+  background-color: #9abbfe;
+  color: white;
+}
+
+.hold-my-posts-real-quick {
+  display: block;
+  width: 600px;
+  height: 250px;
+  padding: 1em;
+  overflow-y: scroll;
+  text-align: center;
+  border-radius: 15px;
+  background-color: #9abbfe;
+  color: white;
+}
+
+.user-row-lang {
+  color: red
+}
+
+.user-row-bio {
+  color: blue
+}
+
+.follow-image {
+  max-width: 25px;
+  max-height: 25px;
+  border-radius: 50%;
+}
+
+.user-sidebar {
+  text-align: center;
+  align-content: center;
+  background-color: #D5F3FE;
+  border-radius: 15px
+}
+
+.follow-boxes {
+  background-color: #9abbfe;
+  border-radius: 15px; 
+  color: white;
+}
+
+.current_note {
+  background-color: #D5F3FE;
+  border-radius: 15px;
+}
+
+.note-meat {
+  background-color: #9abbfe;
+  border-radius: 15px; 
+  color: white;
+}
+
+.suggested-challenges {
+  display: block;
+  width: 600px;
+  height: 380px;
+  padding: 1em;
+  overflow-y: scroll;
+  text-align: center;
+  border-radius: 15px;
+  background-color: #9abbfe;
+}
+
+.side-bar {
+  width: 600px;
+  height: 380px;
+  background-color: #9abbfe;
+}
 /* .myButton {
 	box-shadow: 3px 4px 0px 0px #899599;
 	background:linear-gradient(to bottom, #ededed 5%, #bab1ba 100%);

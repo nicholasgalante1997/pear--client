@@ -97,7 +97,7 @@ class Comment extends React.Component {
             {/* MAIN ROW FOR COMMENT DISPLAY */}
             <Row>
                 {/* COMMENT USER AVATAR */}
-                <Col>
+                <Col >
                 <Image src={this.state.myUser.img_url}/>
                 </Col>
                 {/* COMMENT CONTENT */}

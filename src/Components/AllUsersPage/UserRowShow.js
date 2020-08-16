@@ -8,7 +8,8 @@ import * as action from '../../modules/actions/actionCreators'
 class UserRow extends Component {
     state = { 
         currentUserFollowing: [],
-        currentUserFollowers: []
+        currentUserFollowers: [],
+        shuffle: false
     }
 
     // LifeCycle Methods
@@ -16,9 +17,23 @@ class UserRow extends Component {
         if (prevProps !== this.props){
             this.findMyFollowers()
             this.findWhoIFollow()
+            // this.toggleShuffle()
         }
     }
 
+    componentDidMount(){
+        if (this.props.currentUser) {
+            this.findMyFollowers()
+            this.findWhoIFollow()
+        } 
+    }
+    // toggleShuffle = () => {
+    //     this.setState(prevState => {
+    //         return {
+    //             shuffle: !prevState.shuffle
+    //         }
+    //     })
+    // }
     // Set Current User Relationships to Local State
     findMyFollowers = () => {
         if (this.props.follows) {
@@ -56,7 +71,7 @@ class UserRow extends Component {
         .then(r => r.json())
         .then(follow => {
             this.props.addFollow(follow)
-            alert(`Friend Request Sent To ${follow.followee.username}`)
+            alert(`Following ${follow.followee.username}`)
         })
     }
 
@@ -76,8 +91,8 @@ class UserRow extends Component {
         }
     }
 
-
     render() { 
+        console.log(this.props)
         return ( 
             <Row className='user-row'>
                 <Col xs={2}>
@@ -87,12 +102,20 @@ class UserRow extends Component {
                 <strong>{this.props.user.username}</strong>
                 </Col>
                 <Col md={6}className='user-row-bio'>
-                <small>Bio: {this.props.user.bio}</small>
+                <Row><small className='user-row-bio'>Bio: {this.props.user.bio}</small></Row>
+                <Row><small className='user-row-lang'>Langs: {this.props.user.programming_preferences}</small></Row>
                 </Col>
                 <Col xs={2}>
-                    <form onSubmit={this.handleFollowSubmit}>
-                    <button type='submit'>Add Friend</button>
+                    { this.props.currentUser ?
+                    <>
+                    { (this.state.currentUserFollowing.find(follow => follow.followee_id === this.props.user.id)) ?
+                    <button className='btn'>following</button>
+                    : <form onSubmit={this.handleFollowSubmit}>
+                    <button type='submit'>Follow</button>
                     </form>
+                    }     
+                    </> : 
+                    <p>loading</p>  }
                 </Col>
             </Row>
          );

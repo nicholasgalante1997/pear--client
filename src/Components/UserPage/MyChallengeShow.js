@@ -6,8 +6,12 @@ import Row from 'react-bootstrap/Row'
 class MyChallengeShow extends React.Component {
 
     state = {
-
+        note: ""
     }
+
+    handleChange = (event) => this.setState({
+        [event.target.name]: event.target.value
+    })
 
     filterForMyNotes = () => {
         return [...this.props.notes].filter(note => note.my_challenge_id === this.props.myChallenge.id)
@@ -31,20 +35,16 @@ class MyChallengeShow extends React.Component {
     render () {
         console.log(this.props, this.filterForMyNotes())
             return (
-                // <div className='my-challenge'>
-                <Row>
-                <p>{this.props.myChallenge.challenge.title}:</p>
-                {this.props.myChallenge.completed ? 
-                <p>Completed: ✅ </p> : 
-                <button onClick={this.handleCompletedChallenge}>Done ? 🥺 👉👈</button>}
-                <p>Notes:</p>
-                <ul>
-                {this.filterForMyNotes().map(note => 
-                <li>{note.text}</li>
-                )}
-                </ul>
-                </Row>
-                // {/* // </div> */}
+            <tr>
+            <th>{this.props.myChallenge.id}</th>
+            <th><p>{this.props.myChallenge.challenge.title}</p></th>
+            <th>{this.props.myChallenge.challenge.topic}</th>
+            <th><a href={this.props.myChallenge.challenge.git_link}>Git Link</a></th>
+            {this.props.myChallenge.completed ? 
+            <th>done </th> : 
+            <th><button onClick={this.handleCompletedChallenge}>Done ? 🥺 👉👈</button></th>}
+            <th><button onClick={() => this.props.setCurrentMyChallenge(this.props.myChallenge)}>View Notes</button></th>
+            </tr>
             )
     }
 }
@@ -57,8 +57,27 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        updateMyChallenge: (my_challenge) => dispatch(action.updateMyChallenge(my_challenge))
+        updateMyChallenge: (my_challenge) => dispatch(action.updateMyChallenge(my_challenge)),
+        setCurrentMyChallenge: (my_challenge) => dispatch(action.setCurrentMyChallenge(my_challenge))
     }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyChallengeShow);
+
+{/* <tr> */}
+{/* <th>{myChallenge.challenge.id}</th>
+<th><p>{myChallenge.challenge.title}</p></th>
+<th>{myChallenge.challenge.topic}</th>
+<th><a href={myChallenge.challenge.git_link}>Git Link</a></th>
+<th>{myChallenge.challenge.completed}</th>
+{myChallenge.challenge.completed ? 
+<th>done </th> : 
+<th><button onClick={this.handleCompletedChallenge}>Done ? 🥺 👉👈</button></th>}
+</tr> */}
+
+// <p>Notes:</p>
+// <ul>
+// {this.filterForMyNotes().map(note => 
+// <li>{note.text}</li>
+// )}
+// </ul>

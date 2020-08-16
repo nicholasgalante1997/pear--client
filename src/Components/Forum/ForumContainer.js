@@ -123,6 +123,7 @@ class ForumContainer extends Component {
                     <Row>
                         {/* FIRST COLUMN IS THE SIDE NAV FOR THE MOVEMENT TO THE CHALLENGES SHOW PAGES  */}
                         <Col md={3} className='side-bar'>
+                        <br></br>
                             <Card>
                                 <Card.Title>Genre Side Bar</Card.Title>
                                 <Card.Body>
@@ -140,7 +141,7 @@ class ForumContainer extends Component {
 
 
                         {/* THIRD COLUMN, CHALLENGE SUGGESTIONS BASED ON CURRENTUSER LANG PREF && SKILL LEVEL */}
-                        <Col md={3} className='Suggested Challenges'>
+                        <Col md={3} className='suggested-challenges'>
                             <Card>
                                 <Card.Title>Suggested Challenges</Card.Title>
                                 {this.props.currentUser ? 

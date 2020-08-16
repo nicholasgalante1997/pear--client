@@ -15,10 +15,12 @@ let addMyChallenge = my_challenge => ({type: 'ADD_MY_CHALLENGE', payload: {value
 
 // MY CHALLENGE ACTIONS
 let updateMyChallenge = my_challenge => ({type: 'UPDATE_MY_CHALLENGE', payload: {value: my_challenge}})
+let setCurrentMyChallenge = my_challenge => ({type: 'SET_CURRENT_MY_CHALLENGE', payload: {value: my_challenge}})
 
 // NOTE ACTIONS
 let setNotes = notes => ({type: 'FETCH_NOTES', payload: {value: notes}})
 let addNote = note => ({type: 'ADD_NOTE', payload: {value: note}})
+
 
 // COMMENT ACTIONS
 let setComments = comments => ({type: 'FETCH_COMMENTS', payload: {value: comments}})
@@ -45,4 +47,5 @@ export {setPosts,
     updateComment, 
     addUser, 
     setFollows,
-    addFollow}
+    addFollow, 
+    setCurrentMyChallenge}
