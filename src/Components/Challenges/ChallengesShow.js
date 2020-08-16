@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Col from 'react-bootstrap/Col'
-import Card from 'react-bootstrap/Card'
+import Row from 'react-bootstrap/Row'
 import * as action from '../../modules/actions/actionCreators'
 import {connect} from 'react-redux'
 
@@ -33,20 +33,22 @@ class Challenge extends Component {
 
     render() { 
         return ( 
-           <Col md={3}>
-               <Card>
-                <Card.Title>{this.props.challenge.title}</Card.Title>
-                <Card.Body>
-                <strong>{this.props.challenge.synopsis}</strong>
-                <strong>Contributor: {this.props.challenge.contributor}</strong>
+           <Row className='challenge-show-column'>
+               <Col md={2}>
+                   <heavy>{this.props.challenge.title}</heavy><br></br>
+                   <strong>Contributor: {this.props.challenge.contributor}</strong>
                 <br></br>
+                </Col>
+            <Col>
+                <em>{this.props.challenge.synopsis}</em>
+            </Col>
+            <Col sm={2}>
                 <a href={this.props.challenge.git_link}>Github Link</a>
                 <br></br>
                 <small>Difficulty: {this.props.challenge.difficulty}</small>
                 <button onClick={this.addChallenge}>Add To My Challenges</button>
-                </Card.Body>
-                </Card>
             </Col>
+            </Row>
          );
     }
 }

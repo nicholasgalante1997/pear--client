@@ -44,7 +44,7 @@ class ForumContainer extends Component {
         languageArray.forEach(language => {
           associatedChallenges = this.props.challenges.filter(challenge => challenge.topic.toLowerCase().includes(language.toLowerCase()))
         })
-       return associatedChallenges
+       return [...associatedChallenges].slice(0, 3)
     }
 
     // CHANGES LOCAL STATE TO RENDER FORM FOR SUBMITTING A NEW POST
@@ -115,6 +115,7 @@ class ForumContainer extends Component {
         console.log(this.preferredChallenges())
         return ( 
             <div>
+                <br></br>
                 <h2>Welcome To the Forum!</h2>
                 <br></br>
 

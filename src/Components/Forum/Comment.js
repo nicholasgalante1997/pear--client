@@ -107,7 +107,7 @@ class Comment extends React.Component {
                 </Col>
                 {/* EDIT COMMENT */}
                 <Col sm={2}>
-                    <button className='btn' onClick={this.toggleEditForm}>⚙️</button>
+                    <button className='btn-setting' onClick={this.toggleEditForm}>⚙️</button>
                 </Col>
             </Row>
 

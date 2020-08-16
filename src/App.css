@@ -124,6 +124,7 @@ img {
   padding: 1em;
   overflow-y: scroll;
   text-align: center;
+  border-radius: 15px;
 }
 
 .footer {
@@ -158,8 +159,9 @@ img {
 }
 
 .btn-setting{
+  border-style: hidden;
   border-radius: 18%;
-  background: blue
+
 }
 
 .profile-avi {
@@ -188,11 +190,12 @@ img {
 
 .my-challenge-table {
   display: block;
-  width: 600px;
+  width: 635px;
   height: 250px;
   padding: 1em;
   overflow-y: scroll;
   text-align: center;
+  justify-content: center;
   border-radius: 15px;
   background-color: #9abbfe;
   color: white;
@@ -200,6 +203,7 @@ img {
 
 .hold-my-posts-real-quick {
   display: block;
+  justify-content: center;
   width: 600px;
   height: 250px;
   padding: 1em;
@@ -263,6 +267,19 @@ img {
   width: 600px;
   height: 380px;
   background-color: #9abbfe;
+  border-radius: 15px;
+}
+
+.challenge-show-column {
+  align-content: center;
+  align-items: center;
+  border-radius: 15px;
+  border-style: solid;
+  border-width: 2px;
+}
+
+.challenges-row {
+  align-content: center;
 }
 /* .myButton {
 	box-shadow: 3px 4px 0px 0px #899599;

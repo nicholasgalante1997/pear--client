@@ -38,7 +38,7 @@ class ChallengesContainer extends Component {
     render() { 
         console.log(this.state, this.filterDifficulty())
         return ( 
-            <Container fluid className='challenge-container'>
+            <Container fluid className='challenge-container'><br></br>
                 <h2>Select A Challenge!</h2>
                 <br></br>
                 <br></br>
@@ -51,12 +51,12 @@ class ChallengesContainer extends Component {
                     <Dropdown.Item onClick={this.resetDifficulty} name='Reset'>RESET DIFFICULTY</Dropdown.Item>
                 </DropdownButton>
                 <br></br>
-                <Row>
+                <Row className='challenges-row'>
                 {this.filterDifficulty().map(challenge => 
                     <Challenge challenge={challenge} currentUser={this.props.currentUser}/>
                 )}
                 </Row>
-               
+                <br></br><br></br>
             </Container>
          );
     }

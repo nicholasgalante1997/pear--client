@@ -20,6 +20,9 @@ class AuthContainer extends Component {
     render() { 
         return ( 
             <Container className='log-in'>
+                <br></br>
+                <br></br>
+                <br></br>
             <Row>
                 <Col>
                     {this.state.register ? <RegisterForm {...this.props}/> : 
@@ -28,6 +31,9 @@ class AuthContainer extends Component {
                     <button onClick={this.toggleRegister}>Click For Register</button>}
                 </Col>
             </Row>
+            <br></br>
+            <br></br>
+            <br></br>
         </Container>
          );
     }
