@@ -60,6 +60,22 @@ class OtherUserShow extends Component {
         })
     }
 
+    // DELETE FOLLOW
+    unFollow = () => {
+        let currentUserFollows = [...this.props.follows].filter(follow => follow.follower.id === this.props.currentUser.id)
+        let currentFollow = currentUserFollows.find(follow => follow.followee.id === this.state.otherUser.id)
+        fetch(`http://localhost:3001/api/v1/follows/${currentFollow.id}`, {
+            method: 'DELETE',
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        })
+        .then(data => {
+            this.props.removeFollow(currentFollow.id)
+        })
+    }
+
     render() { 
         console.log(this.props, this.state)
         return ( 
@@ -85,7 +101,7 @@ class OtherUserShow extends Component {
                 </Row>
                 <Row>
                     {(this.findMyFollowers().find(follow => follow.follower.id === this.props.currentUser.id)) ? 
-                     <button className='btn'>following</button> : 
+                     <button className='btn' onClick={this.unFollow}>following</button> : 
                      <button onClick={this.postFollow}>Follow</button>}
                 </Row>
                 </Col>
@@ -161,7 +177,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        addFollow: (follow) => dispatch(action.addFollow(follow))
+        addFollow: (follow) => dispatch(action.addFollow(follow)),
+        removeFollow: (follow) => dispatch(action.removeFollow(follow))
     }
 }
  

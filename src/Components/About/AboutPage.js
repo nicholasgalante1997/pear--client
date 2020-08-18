@@ -9,6 +9,12 @@ const AboutPage = () => {
         <Container>
             <Row>
                 <heavy>Meet The Team Behind Your Favorite Pair Programming App!</heavy>
+                <br></br>
+                <Row>
+                    <Col md={2}>
+                        <Image src=""/>
+                    </Col>
+                </Row>
             </Row>
         </Container>
      );

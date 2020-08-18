@@ -126,7 +126,7 @@ class ForumContainer extends Component {
                         <Col md={3} className='side-bar'>
                         <br></br>
                             <Card>
-                                <Card.Title>Genre Side Bar</Card.Title>
+                                <Card.Title><em>Langs</em></Card.Title>
                                 <Card.Body>
                                     <ul>
                                         <li><NavLink to='/challenges/ruby'>Ruby & Rails<i class="devicon-ruby-plain-wordmark colored"></i></NavLink></li>
@@ -144,7 +144,7 @@ class ForumContainer extends Component {
                         {/* THIRD COLUMN, CHALLENGE SUGGESTIONS BASED ON CURRENTUSER LANG PREF && SKILL LEVEL */}
                         <Col md={3} className='suggested-challenges'>
                             <Card>
-                                <Card.Title>Suggested Challenges</Card.Title>
+                                <Card.Title><em>Suggested Challenges</em></Card.Title>
                                 {this.props.currentUser ? 
                                         <>
                                     {(this.props.currentUser.programming_preferences !== null) ? 
@@ -166,7 +166,7 @@ class ForumContainer extends Component {
                         {/* SECOND COLUMN IS THE POSTS CONTAINER */}
                         <Col className='scrolling-box'>
                             <Card>
-                                <Card.Title>Main Post Container</Card.Title>
+                                <Card.Title><em>Main Post Container</em></Card.Title>
                                 <Card.Body>
                                 <DiscussionContainer  
                                 currentUser={this.props.currentUser} 
