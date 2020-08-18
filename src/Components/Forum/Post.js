@@ -41,6 +41,10 @@ class Post extends React.Component {
         .then(r => r.json())
         .then(post => {
             this.props.updatePost(post)
+            this.setState({
+                editContent: "",
+                editTopic: ""
+            })
         })
     }
     
@@ -121,6 +125,9 @@ class Post extends React.Component {
                     }
                 }, () => {
                     this.props.addComment(comment)
+                    this.setState({
+                        newComment: ""
+                    })
                 })
             })
         } else {

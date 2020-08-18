@@ -130,7 +130,10 @@ class UserShow extends Component {
             })
         })
         .then(r => r.json())
-        .then(note => this.props.addNote(note))
+        .then(note => {
+            this.props.addNote(note)
+            this.setState({note: ""})
+        })
     }
 
     // HANDLE DISPLAYING THE EDIT USER FORM
@@ -151,11 +154,13 @@ class UserShow extends Component {
         return ( 
             // MAIN CONTAINER 
             <Container fluid>
+                <br></br>
                 {/* MAIN ROW */}
                 <Row>
 
                     {/* USER SIDEBAR COLUMN */}
                 <Col md={3} className='user-sidebar'>
+
                     {/* WELCOME BAR / USER INFO */}
                     {/* AVATAR */}
                     <Row>
@@ -183,19 +188,22 @@ class UserShow extends Component {
                     <Row>
                         {this.props.currentUser ? 
                         <Container>
+                            <div className='side-info-container'>
                             <Row>
-                                <strong>Bio; {this.props.currentUser.bio}</strong>
+                                <strong className='bio-side'>Bio; {this.props.currentUser.bio}</strong>
                             </Row>
                             <Row>
-                                <strong>    Langs; {this.props.currentUser.programming_preferences}</strong> 
+                                <strong className='langs-side'>Langs; {this.props.currentUser.programming_preferences}</strong> 
                             </Row>
-                            <Row>
+                            <Row className='side-edit-button'>
                                 <button onClick={this.toggleEditFormForUser}>Edit Info</button>
                                 { this.state.showEditForm ? <EditUserForm 
                                     currentUser={this.props.currentUser}
                                     updateCurrentUser={this.props.updateCurrentUser}/> : 
                                     null }
                             </Row>
+
+                            </div>
                             {/* PROGRESS TRACKER  */}
                             <Row>
                             <p>Youve completed {this.progressTracker() * 100} % of your challenges so far! {this.progressTrackerEmotions()}</p>
@@ -264,7 +272,7 @@ class UserShow extends Component {
                     </tbody>
                 </Table>
                 </Row>
-                <Row className="top-row">
+                <Row className="bottom-row">
                    <strong>My Posts</strong> 
                    <div className='hold-my-posts-real-quick'>
                    {this.filterForMyPosts().map(post => <Post 

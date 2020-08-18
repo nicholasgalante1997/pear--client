@@ -30,6 +30,7 @@ let updateComment = comment => ({type: 'UPDATE_COMMENT', payload: {value: commen
 // FOLLOW ACTIONS
 let setFollows = follows => ({type: 'FETCH_FOLLOWS', payload: {value: follows}})
 let addFollow = follow => ({type: 'ADD_FOLLOW', payload: {value: follow}})
+let removeFollow = follow_id => ({type: 'REMOVE_FOLLOW', payload: {value: follow_id}})
 
 
 
@@ -48,4 +49,5 @@ export {setPosts,
     addUser, 
     setFollows,
     addFollow, 
-    setCurrentMyChallenge}
+    setCurrentMyChallenge,
+    removeFollow}

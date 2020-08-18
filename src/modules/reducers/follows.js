@@ -4,6 +4,9 @@ const follows = (state=[], action) => {
             return action.payload.value 
         case 'ADD_FOLLOW': 
             return [...state, action.payload.value]
+        case 'REMOVE_FOLLOW': 
+            return [...state].filter(follow => follow.id !== action.payload.value)
+            return
         default: 
             return state
     }

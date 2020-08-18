@@ -33,16 +33,16 @@ class Challenge extends Component {
 
     render() { 
         return ( 
-           <Row className='challenge-show-column'>
-               <Col md={2}>
+           <Row className='challenge-show-col'>
+               <Col md={2} className='challenge-title'>
                    <heavy>{this.props.challenge.title}</heavy><br></br>
                    <strong>Contributor: {this.props.challenge.contributor}</strong>
                 <br></br>
                 </Col>
-            <Col>
+            <Col className='challenge-desc-col'>
                 <em>{this.props.challenge.synopsis}</em>
             </Col>
-            <Col sm={2}>
+            <Col className='btn-column' sm={2}>
                 <a href={this.props.challenge.git_link}>Github Link</a>
                 <br></br>
                 <small>Difficulty: {this.props.challenge.difficulty}</small>

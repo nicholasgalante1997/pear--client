@@ -10,6 +10,7 @@ const NavBar = (props) => {
             <Navbar className='nav-bar'>
 
             <Navbar.Brand><strong className='nav-item'>pearProgramming 🍐</strong></Navbar.Brand>
+            <NavLink to='/about' className='nav-item'>About</NavLink>
             <NavLink to='/forum' className='nav-item'>Forum</NavLink>
             <NavLink to='/challenges' className='nav-item'>Challenges Page</NavLink>
             {/* Ternary required below for oscillating log in log out */}

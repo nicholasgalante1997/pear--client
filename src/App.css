@@ -177,13 +177,13 @@ img {
 }
 
 .top-row {
-  height: 275px;
+  height: 350px;
   background-color: #D5F3FE;
   border-radius: 15px;
 }
 
 .bottom-row {
-  height: 275px;
+  height: 325px;
   background-color: #D5F3FE;
   border-radius: 15px;
 }
@@ -191,7 +191,7 @@ img {
 .my-challenge-table {
   display: block;
   width: 635px;
-  height: 250px;
+  height: 300px;
   padding: 1em;
   overflow-y: scroll;
   text-align: center;
@@ -205,7 +205,7 @@ img {
   display: block;
   justify-content: center;
   width: 600px;
-  height: 250px;
+  height: 290px;
   padding: 1em;
   overflow-y: scroll;
   text-align: center;
@@ -275,30 +275,102 @@ img {
   align-items: center;
   border-radius: 15px;
   border-style: solid;
-  border-width: 2px;
+  border-width: 1px;
 }
 
 .challenges-row {
   align-content: center;
+  padding-left: 20px;
+  padding-right: 20px;
 }
-/* .myButton {
-	box-shadow: 3px 4px 0px 0px #899599;
-	background:linear-gradient(to bottom, #ededed 5%, #bab1ba 100%);
-	background-color:#ededed;
-	border-radius:15px;
-	border:1px solid #d6bcd6;
-	display:inline-block;
-	cursor:pointer;
-  color:#3a8a9e;
-	padding:7px 25px;
-	text-decoration:none;
-	text-shadow:0px 1px 0px #e1e2ed;
+
+.challenge-show-col {
+  border-style: solid;
 }
-.myButton:hover {
-	background:linear-gradient(to bottom, #bab1ba 5%, #ededed 100%);
-	background-color:#bab1ba;
+
+.challenge-desc-col {
+  border-style: solid;
+  border-width: 1px;
 }
-.myButton:active {
-	position:relative;
-	top:1px;
-} */
+
+.langs-side {
+  padding-left: 25px;
+}
+
+.side-edit-button {
+  padding-left: 25px;
+}
+
+.side-info-container {
+  background-color: #9abbfe;
+  color: white;
+  border-radius: 15px;
+}
+
+.other-user-attributes {
+  float: left;
+  padding-left: 50px;
+}
+
+.other-bio {
+  padding-left: 500px;
+}
+
+.pop-red {
+  color: red;
+}
+
+.pop-violet {
+  color: violet
+}
+
+.other-user-bio-spec {
+  color: white;
+  background-color: #9abbfe;
+  border-radius: 15px;
+}
+
+.other-user-relations {
+  background-color: #9abbfe;
+  border-radius: 15px;
+  color: white;
+  padding-right: 20px;
+  text-align: center;
+}
+
+.other-user-posts {
+  background-color: #9abbfe;
+  border-radius: 15px;
+  color: white;
+  align-content: flex-start;
+}
+
+.other-user-challenges {
+  background-color: #9abbfe;
+  border-radius: 15px;
+  color: white;
+}
+
+.pop-red-push-right {
+  color: red;
+  padding-left: 40px;
+}
+
+.force-shrink-font {
+  font-size: 10px;
+}
+
+.follow-image-shrink {
+  max-width: 20px;
+  max-height: 20px;
+  border-radius: 50%;
+}
+
+.pop-red-push-posts {
+  color: red;
+  padding-left: 200px;
+}
+
+.pop-yellow {
+  color: yellow
+}

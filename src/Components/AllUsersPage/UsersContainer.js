@@ -32,7 +32,8 @@ class UsersContainer extends Component {
             <Container fluid>
                 {this.searchUsers().map(user => 
                 <UserRow user={user}
-                currentUser={this.props.currentUser}/>)}
+                currentUser={this.props.currentUser}
+                history={this.props.history}/>)}
             </Container> : 
         <p>loading users</p>}
         </>

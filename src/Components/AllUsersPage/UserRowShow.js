@@ -75,6 +75,27 @@ class UserRow extends Component {
         })
     }
 
+    // DELETE METHOD ON FOLLOWS 
+    handleDeleteFollow = () => {
+        let followInstance = [...this.state.currentUserFollowing].find(follow => follow.followee.id === this.props.user.id)
+        fetch(`http://localhost:3001/api/v1/follows/${followInstance.id}`, {
+            method: 'DELETE',
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        })
+        .then(data => {
+            this.setState(prevState => {
+             return {
+                 currentUserFollowing: prevState.currentUserFollowing.filter(follow => follow.id !== followInstance.id)
+             }   
+            })
+            this.props.removeFollow(followInstance.id)
+        })
+        
+    }
+
     // POST FOR FOLLOWING ANOTHER USER 
     handleFollowSubmit = (event) => {
         event.preventDefault()
@@ -91,15 +112,19 @@ class UserRow extends Component {
         }
     }
 
+    // METHOD FOR USER SHOW PAGE AVIGATION 
+    onUserShowClick = () => {
+        this.props.history.push(`/users/${this.props.user.id}`)
+    } 
+
     render() { 
-        console.log(this.props)
         return ( 
             <Row className='user-row'>
                 <Col xs={2}>
                     <Image src={this.props.user.img_url} thumbnail/>
                 </Col>
                 <Col md={2}>
-                <strong>{this.props.user.username}</strong>
+                <strong onClick={this.onUserShowClick}>{this.props.user.username}</strong>
                 </Col>
                 <Col md={6}className='user-row-bio'>
                 <Row><small className='user-row-bio'>Bio: {this.props.user.bio}</small></Row>
@@ -109,7 +134,7 @@ class UserRow extends Component {
                     { this.props.currentUser ?
                     <>
                     { (this.state.currentUserFollowing.find(follow => follow.followee_id === this.props.user.id)) ?
-                    <button className='btn'>following</button>
+                    <button className='btn' onClick={this.handleDeleteFollow}>following</button>
                     : <form onSubmit={this.handleFollowSubmit}>
                     <button type='submit'>Follow</button>
                     </form>
@@ -130,7 +155,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        addFollow: (follow) => dispatch(action.addFollow(follow))
+        addFollow: (follow) => dispatch(action.addFollow(follow)),
+        removeFollow: (follow) => dispatch(action.removeFollow(follow))
     }
 }
  

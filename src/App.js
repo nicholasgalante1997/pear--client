@@ -12,6 +12,8 @@ import UserShow from './Components/UserPage/UserShow'
 import * as action from './modules/actions/actionCreators'
 import {connect} from 'react-redux'
 import Footer from './Components/Footer/Footer'
+import AboutPage from './Components/About/AboutPage'
+import OtherUserShow from './Components/OtherUser/OtherUserShow'
 
 class App extends Component {
 
@@ -178,6 +180,7 @@ class App extends Component {
       localStorage.removeItem('token')
     })
     this.props.history.push('/login')
+    this.props.setCurrentMyChallenge({})
   }
 
   // TOKEN SET AND CURRENT USER SET METHOD
@@ -252,10 +255,19 @@ class App extends Component {
         {...routerProps} 
         updateCurrentUser={this.updateCurrentUser}/>}/>
 
+        {/* OTHER USER SHOW */}
+        <Route exact path='/users/:id' render={(routerProps) => 
+        <OtherUserShow {...routerProps} 
+        currentUser={this.state.currentUser}/>}/>
+
         {/* USER INDEX CONTAINER ROUTE */}
         <Route exact path='/users' render={(routerProps) => 
         <UsersContainer {...routerProps}
         currentUser={this.state.currentUser}/>}/>
+
+        {/* ABOUT PAGE ROUTE */}
+        <Route exact path='/about' render={(routerProps) => 
+        <AboutPage {...routerProps}/>}/>
 
       </Switch>
 
@@ -271,7 +283,8 @@ const mapDispatchToProps = dispatch => {
     setMyChallenges: (my_challenges) => dispatch(action.setMyChallenges(my_challenges)),
     setNotes: (notes) => dispatch(action.setNotes(notes)),
     setComments: (comments) => dispatch(action.setComments(comments)),
-    setFollows: (follows) => dispatch(action.setFollows(follows))
+    setFollows: (follows) => dispatch(action.setFollows(follows)),
+    setCurrentMyChallenge: (my_current_challenge) => dispatch(action.setCurrentMyChallenge(my_current_challenge))
   }
 }
 

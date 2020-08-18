@@ -66,6 +66,9 @@ class Comment extends React.Component {
         .then(r => r.json())
         .then(comment => {
            this.props.updateComment(comment)
+           this.setState({
+               editContent: ""
+           })
         })
     }
 
