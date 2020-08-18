@@ -5,19 +5,38 @@ import RegisterForm from './Register'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 
-const AuthContainer = (props) => {
-    return ( 
-        <Container fluid>
+class AuthContainer extends Component {
+    state = { 
+        register: false 
+     }
+
+    toggleRegister = () => {
+        this.setState(prevState => {
+            return {
+                register: !prevState.register
+            }
+        })
+    }
+    render() { 
+        return ( 
+            <Container className='log-in'>
+                <br></br>
+                <br></br>
+                <br></br>
             <Row>
-                <Col md={6}>
-                    <RegisterForm {...props}/>
-                </Col>
-                <Col md={6}>
-                    <LogInForm {...props}/>
+                <Col>
+                    {this.state.register ? <RegisterForm {...this.props}/> : 
+                    <LogInForm {...this.props}/>}
+                    { this.state.register ? <button onClick={this.toggleRegister}>Click for Login</button> : 
+                    <button onClick={this.toggleRegister}>Click For Register</button>}
                 </Col>
             </Row>
+            <br></br>
+            <br></br>
+            <br></br>
         </Container>
-     );
+         );
+    }
 }
  
 export default AuthContainer;

@@ -5,6 +5,8 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import DiscussionContainer from './DiscussionContainer'
 import {NavLink} from 'react-router-dom'
+import * as action from '../../modules/actions/actionCreators'
+import {connect} from 'react-redux'
 
 class ForumContainer extends Component {
     state = { 
@@ -12,18 +14,40 @@ class ForumContainer extends Component {
         newPostContent: "",
         newPostTopic: "",
         showNewThreadContent: false,
-        newPostsToRender: []
     }
 
+    // CONTAINER THREE METHOD FOR SUGGESTED DAILY CONTENT
     randomizeDailyChallenges = () => {
         let dailyChallenges = []
         for (let i=0; i < 6; i++) {
-            const randomNumber = Math.floor(Math.random() * this.state.challenges.length)
-            dailyChallenges.push(this.state.challenges[randomNumber])
+            const randomNumber = Math.floor(Math.random() * this.props.challenges.length)
+            const randomChal = this.props.challenges.find(challenge => challenge.id === randomNumber)
+            dailyChallenges.push(this.props.challenges[randomChal])
         }
         return dailyChallenges
     }
 
+    // LANGUAGE PREFERENCE FOR CURRENTUSER
+    preferredLanguages = () => {
+        let languagePreferences = []
+        if (!!this.props.currentUser && !!this.props.currentUser.programming_preferences) {
+            languagePreferences = this.props.currentUser.programming_preferences.split(" ")
+        }
+        return languagePreferences
+    }
+
+    // HELPER METHOD FOR SEPARATING CHALLENGES
+    preferredChallenges = () => {
+        let languageArray = this.preferredLanguages()
+        let preferredChallenges = []
+        let associatedChallenges = []
+        languageArray.forEach(language => {
+          associatedChallenges = this.props.challenges.filter(challenge => challenge.topic.toLowerCase().includes(language.toLowerCase()))
+        })
+       return [...associatedChallenges].slice(0, 3)
+    }
+
+    // CHANGES LOCAL STATE TO RENDER FORM FOR SUBMITTING A NEW POST
     toggleNewThreadContent = () => {
         this.setState(prevState => {
             return {
@@ -31,6 +55,8 @@ class ForumContainer extends Component {
             }
         })
     }
+
+    // FORM METHODS
 
     handleChange = (e) => {
         this.setState({
@@ -60,9 +86,9 @@ class ForumContainer extends Component {
                     newPostContent: "",
                     newPostTopic: "",
                     showNewThreadContent: false,
-                    newPostsToRender: [...prevState.newPostsToRender, post]
                 }
             })
+            this.props.addPost(post)
         })
     }   else {
         alert('Must be signed in to submit a post')
@@ -86,57 +112,99 @@ class ForumContainer extends Component {
     }
 
     render() { 
-        console.log(this.props, this.state)
+        console.log(this.preferredChallenges())
         return ( 
             <div>
+                <br></br>
                 <h2>Welcome To the Forum!</h2>
                 <br></br>
-                <br></br>
-                <br></br>
+
+                {/* HOLDS ALL THREE COLUMNS */}
                 <Container fluid>
                     <Row>
-                        <Col md={4} className='side-bar'>
+                        {/* FIRST COLUMN IS THE SIDE NAV FOR THE MOVEMENT TO THE CHALLENGES SHOW PAGES  */}
+                        <Col md={3} className='side-bar'>
+                        <br></br>
                             <Card>
-                                <Card.Title>Genre Side Bar</Card.Title>
+                                <Card.Title><em>Langs</em></Card.Title>
                                 <Card.Body>
                                     <ul>
-                                        <li><NavLink to='/challenges/ruby'>Ruby & Rails</NavLink></li>
-                                        <li><NavLink to='/challenges/python'>Python</NavLink></li>
-                                        <li><NavLink to='/challenges/nodejs'>Node.Js</NavLink></li>
-                                        <li><NavLink to='/challenges/backend'>NSL; Backend Challenges</NavLink></li>
-                                        <li><NavLink to='/challenges/php'>PHP</NavLink></li>
-                                        <li><NavLink to='/challenges/java'>Java</NavLink></li>
+                                        <li><NavLink to='/challenges/ruby'>Ruby & Rails<i class="devicon-ruby-plain-wordmark colored"></i></NavLink></li>
+                                        <li><NavLink to='/challenges/python'>Python <i class="devicon-python-plain-wordmark colored"></i></NavLink></li>
+                                        <li><NavLink to='/challenges/nodejs'>Node.Js <i class="devicon-nodejs-plain"></i></NavLink></li>
+                                        <li><NavLink to='/challenges/backend'>NSL; Backend Challenges <i class="devicon-postgresql-plain-wordmark colored"></i></NavLink></li>
+                                        <li><NavLink to='/challenges/php'>PHP<i class="devicon-php-plain"></i></NavLink></li>
+                                        <li><NavLink to='/challenges/java'>Java <i class="devicon-java-plain"></i></NavLink></li>
                                     </ul>
                                 </Card.Body>
                             </Card>
                         </Col>
-                        <Col md={4} className='disc-container'>
+
+
+                        {/* THIRD COLUMN, CHALLENGE SUGGESTIONS BASED ON CURRENTUSER LANG PREF && SKILL LEVEL */}
+                        <Col md={3} className='suggested-challenges'>
                             <Card>
-                                <Card.Title>Main Post Container</Card.Title>
-                                <DiscussionContainer posts={[...this.props.posts, ...this.state.newPostsToRender]} users={this.props.users} currentUser={this.props.currentUser} />
-                               {this.state.showNewThreadContent ? this.renderNewThreadForm() : <button onClick={this.toggleNewThreadContent}>Show New Thread Form</button>}
-                               
-                               
-                                {/* <Card.Footer>
-                                    <form className='new-post-form'>
-                                        <input placeholder='Begin Writing Post' name='newPostContent' value={this.state.newPostContent} onChange={this.handleChange} type='text'/>
-                                        <button type='submit'>Post</button>
-                                    </form>
-                                </Card.Footer> */}
+                                <Card.Title><em>Suggested Challenges</em></Card.Title>
+                                {this.props.currentUser ? 
+                                        <>
+                                    {(this.props.currentUser.programming_preferences !== null) ? 
+                                    <>
+                                        {this.preferredChallenges().map(challenge => 
+                                            <>
+                                            <strong>{challenge.title}:</strong> 
+                                            <a href={challenge.git_link}>Git Link</a>
+                                            <em>{challenge.topic}</em>
+                                            </>  
+                                        )} 
+                                        </> :
+                                            <p>try adding some langauage preferences on your user page</p> }
+                                        </>
+                                :<p>Please Sign In and Select a Language to Get Personalized Challenges</p>}
                             </Card>
                         </Col>
-                        <Col md={4} className='Suggested Challenges'>
+
+                        {/* SECOND COLUMN IS THE POSTS CONTAINER */}
+                        <Col className='scrolling-box'>
                             <Card>
-                                <Card.Title>Suggested Challenges</Card.Title>
-                                {(this.state.challenges !== undefined) ? this.randomizeDailyChallenges().map(challenge => 
-                                    <a href={challenge.git_link}>{challenge.title}</a>) : <p>...loading</p>}
+                                <Card.Title><em>Main Post Container</em></Card.Title>
+                                <Card.Body>
+                                <DiscussionContainer  
+                                currentUser={this.props.currentUser} 
+                                />
+                                </Card.Body>
+                                <Card.Footer>
+                               {this.state.showNewThreadContent ? this.renderNewThreadForm() : <button className='btn' onClick={this.toggleNewThreadContent}>Show New Thread Form</button>}
+                               </Card.Footer>
                             </Card>
                         </Col>
                     </Row>
                 </Container>
+                <br></br><br></br><br></br><br></br><br></br>
             </div>
          );
     }
 }
+
+const mapDispatchToProps = dispatch => {
+    return {
+        addPost: (post) => dispatch(action.addPost(post))
+    }
+}
+
+const mapStateToProps = state => {
+    return {
+        users: state.users
+    }
+}
  
-export default ForumContainer;
+export default connect(mapStateToProps, mapDispatchToProps)(ForumContainer);
+
+
+// REMOVED DURING REDUX REFACTOR
+
+{/* <Card.Footer>
+    <form className='new-post-form'>
+        <input placeholder='Begin Writing Post' name='newPostContent' value={this.state.newPostContent} onChange={this.handleChange} type='text'/>
+        <button type='submit'>Post</button>
+    </form>
+</Card.Footer> */}

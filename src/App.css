@@ -36,41 +36,43 @@
     transform: rotate(360deg);
   }
 }
+
+/* MY STYLES */
+@font-face {
+  font-family: 'South Park';
+  src: url('./fontFolder/southpark.woff2') format('woff2'),
+      url('./fontFolder/southpark.woff') format('woff'),
+      url('./fontFolder/southpark.ttf') format('truetype'),
+      url('./fontFolder/southpark.svg#southpark') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+
 body {
-  font-family: Garamond;
+  background-color: #d5fefd;
+  background-image: linear-gradient(315deg, #d5fefd 0%, #fffcff 74%);
+  color:#007ea7;
+  font-family: 'South Park';
 }
 .nav-bar {
-  background-image: linear-gradient(to top, #1e3c72 0%, #1e3c72 1%, #2a5298 100%);
   justify-content: space-around;
+  /* font-family: New Century Schoolbook, TeX Gyre Schola, serif; */
+  background-color: #d9e3fe;
+  max-height: 70px;
+  border-radius: 12 px,
+
 }
+
 .nav-item {
   padding: 25px;
-  color: white; 
-  font-family: Garamond;
+  color:#007ea7;
+  /* font-family: New Century Schoolbook, TeX Gyre Schola, serif; */
   font-style: italic;
   align-content: space-between;
 }
-/* .myButton {
-	box-shadow: 3px 4px 0px 0px #899599;
-	background:linear-gradient(to bottom, #ededed 5%, #bab1ba 100%);
-	background-color:#ededed;
-	border-radius:15px;
-	border:1px solid #d6bcd6;
-	display:inline-block;
-	cursor:pointer;
-  color:#3a8a9e;
-	padding:7px 25px;
-	text-decoration:none;
-	text-shadow:0px 1px 0px #e1e2ed;
-}
-.myButton:hover {
-	background:linear-gradient(to bottom, #bab1ba 5%, #ededed 100%);
-	background-color:#bab1ba;
-}
-.myButton:active {
-	position:relative;
-	top:1px;
-} */
+
 
 .disc-container {
   justify-content: space-evenly;
@@ -80,10 +82,12 @@ body {
 .post {
   justify-content: space-evenly;
   font-size: smaller;
+  border-style: double;
+  border-radius: 15px;
 }
 
 .comment {
-  border-style: dotted;
+  border-style: double;
   border-radius: 15px;
 }
 
@@ -95,4 +99,279 @@ body {
 .post-user {
   border-style: double;
   border-radius: 12px;
+}
+
+.user-row {
+  max-height: 100px;
+}
+
+img {
+  float: left;
+  width:  100px;
+  height: 100px;
+  object-fit: cover;
+}
+
+.user-row-bio {
+  align-items: left;
+}
+
+.scrolling-box {
+  background-color: #9abbfe;
+  display: block;
+  width: 200px;
+  height: 380px;
+  padding: 1em;
+  overflow-y: scroll;
+  text-align: center;
+  border-radius: 15px;
+}
+
+.footer {
+  max-height: 40 px;
+  color:#007ea7;
+  text-align: center;
+  align-content: center;
+  background-image: linear-gradient(315deg, #d5fefd 0%, #fffcff 74%)
+}
+
+.post-topic {
+  color: red;
+}
+
+.log-in {
+  align-content: center;
+  max-width: 300px;
+}
+
+.footer-right {
+  padding-left: 850px;
+  font-style: italic;
+}
+
+.genre-container {
+  justify-content: space-around;
+  align-items: center
+}
+
+.btn {
+  border-radius: 18%;
+  background: yellow
+}
+
+.btn-setting{
+  border-style: hidden;
+  border-radius: 18%;
+
+}
+
+.profile-avi {
+  border-radius: 50%;
+}
+
+.welcome-user {
+  padding-left: 87px;
+}
+
+.user-challenge-container {
+  border-style: dashed
+}
+
+.top-row {
+  height: 350px;
+  background-color: #D5F3FE;
+  border-radius: 15px;
+}
+
+.bottom-row {
+  height: 325px;
+  background-color: #D5F3FE;
+  border-radius: 15px;
+}
+
+.my-challenge-table {
+  display: block;
+  width: 635px;
+  height: 300px;
+  padding: 1em;
+  overflow-y: scroll;
+  text-align: center;
+  justify-content: center;
+  border-radius: 15px;
+  background-color: #9abbfe;
+  color: white;
+}
+
+.hold-my-posts-real-quick {
+  display: block;
+  justify-content: center;
+  width: 600px;
+  height: 290px;
+  padding: 1em;
+  overflow-y: scroll;
+  text-align: center;
+  border-radius: 15px;
+  background-color: #9abbfe;
+  color: white;
+}
+
+.user-row-lang {
+  color: red
+}
+
+.user-row-bio {
+  color: blue
+}
+
+.follow-image {
+  max-width: 25px;
+  max-height: 25px;
+  border-radius: 50%;
+}
+
+.user-sidebar {
+  text-align: center;
+  align-content: center;
+  background-color: #D5F3FE;
+  border-radius: 15px
+}
+
+.follow-boxes {
+  background-color: #9abbfe;
+  border-radius: 15px; 
+  color: white;
+}
+
+.current_note {
+  background-color: #D5F3FE;
+  border-radius: 15px;
+}
+
+.note-meat {
+  background-color: #9abbfe;
+  border-radius: 15px; 
+  color: white;
+}
+
+.suggested-challenges {
+  display: block;
+  width: 600px;
+  height: 380px;
+  padding: 1em;
+  overflow-y: scroll;
+  text-align: center;
+  border-radius: 15px;
+  background-color: #9abbfe;
+}
+
+.side-bar {
+  width: 600px;
+  height: 380px;
+  background-color: #9abbfe;
+  border-radius: 15px;
+}
+
+.challenge-show-column {
+  align-content: center;
+  align-items: center;
+  border-radius: 15px;
+  border-style: solid;
+  border-width: 1px;
+}
+
+.challenges-row {
+  align-content: center;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.challenge-show-col {
+  border-style: solid;
+}
+
+.challenge-desc-col {
+  border-style: solid;
+  border-width: 1px;
+}
+
+.langs-side {
+  padding-left: 25px;
+}
+
+.side-edit-button {
+  padding-left: 25px;
+}
+
+.side-info-container {
+  background-color: #9abbfe;
+  color: white;
+  border-radius: 15px;
+}
+
+.other-user-attributes {
+  float: left;
+  padding-left: 50px;
+}
+
+.other-bio {
+  padding-left: 500px;
+}
+
+.pop-red {
+  color: red;
+}
+
+.pop-violet {
+  color: violet
+}
+
+.other-user-bio-spec {
+  color: white;
+  background-color: #9abbfe;
+  border-radius: 15px;
+}
+
+.other-user-relations {
+  background-color: #9abbfe;
+  border-radius: 15px;
+  color: white;
+  padding-right: 20px;
+  text-align: center;
+}
+
+.other-user-posts {
+  background-color: #9abbfe;
+  border-radius: 15px;
+  color: white;
+  align-content: flex-start;
+}
+
+.other-user-challenges {
+  background-color: #9abbfe;
+  border-radius: 15px;
+  color: white;
+}
+
+.pop-red-push-right {
+  color: red;
+  padding-left: 40px;
+}
+
+.force-shrink-font {
+  font-size: 10px;
+}
+
+.follow-image-shrink {
+  max-width: 20px;
+  max-height: 20px;
+  border-radius: 50%;
+}
+
+.pop-red-push-posts {
+  color: red;
+  padding-left: 200px;
+}
+
+.pop-yellow {
+  color: yellow
 }

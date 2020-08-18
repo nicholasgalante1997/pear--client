@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Form from 'react-bootstrap/Form'
 import Card from 'react-bootstrap/Card'
+import * as action from '../../modules/actions/actionCreators'
+import {connect} from 'react-redux'
 
 class RegisterForm extends Component {
     state = {  
@@ -8,7 +10,8 @@ class RegisterForm extends Component {
         password: "",
         passwordConfirmation: "",
         bio: "",
-        img_url: ""
+        img_url: "",
+        programming_preferences: ""
     }
 
     handleSubmit = (event) => {
@@ -23,7 +26,10 @@ class RegisterForm extends Component {
                 },
                 body: JSON.stringify({
                     username: this.state.username,
-                    password: this.state.password
+                    password: this.state.password,
+                    bio: this.state.bio,
+                    img_url: this.state.img_url,
+                    programming_preferences: this.state.programming_preferences
                 })
             })
             .then(r => r.json())
@@ -32,6 +38,7 @@ class RegisterForm extends Component {
                     alert(response.errors)
                 } else {
                     this.props.setUser(response)
+                    this.props.addUser(response.user)
                 }
             })
         } else {
@@ -46,18 +53,21 @@ class RegisterForm extends Component {
     render() { 
         console.log(this.state)
         return (
-            <Card>
+            <Card className='register-form'>
                 <Card.Title>New Guy? Register here, guy.</Card.Title>
             <form onSubmit={this.handleSubmit}>
                 <label>Username:</label>
                 <input name='username' type='text' value={this.state.username} onChange={this.handleChange} placeholder="Username"/><br></br>
                 <label>Password:</label>
                 <input name='password' type='password' value={this.state.password} onChange={this.handleChange} placeholder="Password"/><br></br>
+                <label>Password Confirmation</label>
                 <input name='passwordConfirmation' type='password' value={this.state.passwordConfirmation} onChange={this.handleChange} placeholder="Password Confirmation"/><br></br>
-                {/* <label>Tell Us About Yourself!</label>
+                <label>Tell Us About Yourself!</label>
                 <input name='bio' type='text' value={this.state.bio} onChange={this.handleChange} placeholder="Bio..."/><br></br>
                 <label>Avatar</label>
-                <input name='img_url' type='text' value={this.state.img_url} onChange={this.handleChange} placeholder="Avatar Link"/><br></br> */}
+                <input name='img_url' type='text' value={this.state.img_url} onChange={this.handleChange} placeholder="Avatar Link"/><br></br>
+                <label>And I like to Code in;</label>
+                <input name='programming_preferences' type='text' value={this.state.programming_preferences} onChange={this.handleChange} placeholder="Ruby, Javascript, Python..."/>
                 <button type='submit' className='myButton'>Submit</button>
             </form>
             </Card>
@@ -65,5 +75,11 @@ class RegisterForm extends Component {
          );
     }
 }
+
+const mapDispatchToProps = dispatch => {
+    return {
+        addUser: (user) => dispatch(action.addUser(user))
+    }
+}
  
-export default RegisterForm;
+export default connect(null, mapDispatchToProps)(RegisterForm);
