@@ -34,6 +34,7 @@ class UsersContainer extends Component {
                 <UserRow user={user}
                 currentUser={this.props.currentUser}
                 history={this.props.history}/>)}
+                <br></br>
             </Container> : 
         <p>loading users</p>}
         </>

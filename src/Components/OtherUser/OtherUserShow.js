@@ -42,6 +42,10 @@ class OtherUserShow extends Component {
     // FOLLOW FROM THE USER SHOW PAGE
     postFollow = () => {
         const id = this.props.match.params.id
+        console.log(id, this.props.currentUser.id)
+        if (this.props.currentUser.id == id) {
+            alert('you cant follow yourself dude were trying to reduce online vanity')
+         } else {
         fetch('http://localhost:3001/api/v1/follows', {
             method: 'POST',
             headers: {
@@ -58,6 +62,7 @@ class OtherUserShow extends Component {
             this.props.addFollow(follow)
             alert(`Following ${follow.followee.username}`)
         })
+        }
     }
 
     // DELETE FOLLOW

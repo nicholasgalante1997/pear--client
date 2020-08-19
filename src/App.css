@@ -61,7 +61,7 @@ body {
   /* font-family: New Century Schoolbook, TeX Gyre Schola, serif; */
   background-color: #d9e3fe;
   max-height: 70px;
-  border-radius: 12 px,
+  border-radius: 15px;
 
 }
 
@@ -374,4 +374,18 @@ img {
 
 .pop-yellow {
   color: yellow
+}
+
+.about-page {
+  height: 200px;
+  width: 200px;
+}
+
+.about-header {
+  font-size: 36px;
+  padding-top: 20px;
+}
+
+.about-header-image {
+  width: 100%;
 }
