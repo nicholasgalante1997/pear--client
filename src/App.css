@@ -49,6 +49,13 @@
   font-display: swap;
 }
 
+.title {
+  color: green;
+}
+
+.smaller {
+  font-size: 12px;
+}
 
 body {
   background-color: #d5fefd;
@@ -181,12 +188,17 @@ img {
   height: 350px;
   background-color: #D5F3FE;
   border-radius: 15px;
+  border-color: #9abbfe;
+  border-style: solid;
 }
 
 .bottom-row {
   height: 325px;
   background-color: #D5F3FE;
   border-radius: 15px;
+  border-color: #9abbfe;
+  border-style: solid;
+  justify-content: center;
 }
 
 .my-challenge-table {
@@ -233,7 +245,10 @@ img {
   text-align: center;
   align-content: center;
   background-color: #D5F3FE;
-  border-radius: 15px
+  border-radius: 15px;
+  border-color: #9abbfe;
+  border-style: solid;
+
 }
 
 .follow-boxes {
@@ -245,6 +260,9 @@ img {
 .current_note {
   background-color: #D5F3FE;
   border-radius: 15px;
+  border-color: yellow;
+  border-style: solid;
+  justify-content: center;
 }
 
 .note-meat {
@@ -271,31 +289,16 @@ img {
   border-radius: 15px;
 }
 
-.challenge-show-column {
-  align-content: center;
-  align-items: center;
-  border-radius: 15px;
-  border-style: solid;
-  border-width: 1px;
-}
-
-.challenges-row {
-  align-content: center;
-  padding-left: 20px;
-  padding-right: 20px;
-}
-
-.challenge-show-col {
-  border-style: solid;
-}
-
-.challenge-desc-col {
-  border-style: solid;
-  border-width: 1px;
-}
 
 .langs-side {
-  padding-left: 25px;
+  padding-left: 45px;
+}
+
+.bio-side {
+  /* font-size: 10px; */
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 20px;
 }
 
 .side-edit-button {
@@ -315,6 +318,7 @@ img {
 
 .other-bio {
   padding-left: 500px;
+  justify-content: center;
 }
 
 .pop-red {
@@ -359,6 +363,7 @@ img {
 
 .force-shrink-font {
   font-size: 10px;
+  color: white
 }
 
 .follow-image-shrink {
@@ -389,3 +394,56 @@ img {
 .about-header-image {
   width: 100%;
 }
+
+.user-page {
+  justify-content: space-between;
+}
+
+button {
+  border-radius: 15px;
+  background-color: white;
+}
+
+.user-link {
+  color: white;
+}
+
+.challenge-title {
+  color: violet;
+  border-radius:15px; 
+  border-color: blue 
+}
+
+.challenge-show-column {
+   align-content: center;
+  align-items: center;
+   border-radius: 15px;
+  border-style: solid;
+  border-width: 1px; 
+}
+
+.challenges-row {
+  align-content: center;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.challenge-show-col {
+  border-style: solid;
+  border-radius:15px;
+}
+
+.challenge-desc-col {
+  border-style: solid;
+  border-width: 1px;
+  color:green;
+  border-radius:15px;
+}
+
+/* .progress-tracker {
+  
+  background-color: #9abbfe;
+  color: white;
+  border-radius: 15px;
+
+} */

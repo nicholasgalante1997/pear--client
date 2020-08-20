@@ -291,7 +291,8 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
   return {
     posts: state.posts,
-    users: state.users
+    users: state.users,
+    follows: state.follows
   }
 }
 
@@ -315,3 +316,13 @@ export default connect(mapStateToProps, mapDispatchToProps)(App);
 //     }
 //   })
 // }
+
+  // Set Current User Followers to LocalStorage NOT COMPLETE YET 
+  //  findMyFollowers = () => {
+  //    let followers = []
+  //   if (this.props.follows && this.state.currentUser.id) {
+  //       followers = [...this.props.follows].filter(follow => follow.followee_id === this.state.currentUser.id)   
+  //   } else {
+  //     return followers
+  //   }
+  // }

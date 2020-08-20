@@ -116,7 +116,7 @@ class ForumContainer extends Component {
         return ( 
             <div>
                 <br></br>
-                <h2>Welcome To the Forum!</h2>
+                <h2 className='title'>Welcome To the Forum!</h2>
                 <br></br>
 
                 {/* HOLDS ALL THREE COLUMNS */}
@@ -166,7 +166,7 @@ class ForumContainer extends Component {
                         {/* SECOND COLUMN IS THE POSTS CONTAINER */}
                         <Col className='scrolling-box'>
                             <Card>
-                                <Card.Title><em>Main Post Container</em></Card.Title>
+                                <Card.Title><em>What's HOT</em></Card.Title>
                                 <Card.Body>
                                 <DiscussionContainer  
                                 currentUser={this.props.currentUser} 

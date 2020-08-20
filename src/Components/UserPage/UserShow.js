@@ -12,6 +12,8 @@ import Post from '../Forum/Post'
 import FriendRequest from './FriendRequestRow'
 import Nav from 'react-bootstrap/Nav'
 import Table from 'react-bootstrap/Table'
+import {NavLink} from 'react-router-dom'
+
 
 class UserShow extends Component {
 
@@ -106,9 +108,9 @@ class UserShow extends Component {
     progressTrackerEmotions = () => {
         if (this.progressTracker() >= 0 && this.progressTracker() < 0.5){
             return "🙄🤕"
-        } else if (this.progressTracker() >= 0.5 && this.progressTracker < 0.75) {
+        } else if ((this.progressTracker() > 0.5) && (this.progressTracker < 0.7)) {
             return "🤠😮👌"
-        } else if (this.progressTracker() >= 0.75) {
+        } else if (this.progressTracker() >= 0.7) {
             return "🔥🥵🧠"
         } else {
             return null 
@@ -150,13 +152,13 @@ class UserShow extends Component {
     })
 
     render() { 
-        console.log(this.props.notes)
+        console.log(localStorage)
         return ( 
             // MAIN CONTAINER 
             <Container fluid>
                 <br></br>
                 {/* MAIN ROW */}
-                <Row>
+                <Row className='user-page'>
 
                     {/* USER SIDEBAR COLUMN */}
                 <Col md={3} className='user-sidebar'>
@@ -184,16 +186,21 @@ class UserShow extends Component {
                     <Nav.Link>Following: {this.state.following.length}</Nav.Link>
                     </Row>
 
+                      {/* PROGRESS TRACKER  */}
+                    <Row className='progress-tracker'>
+                        <p>Youve completed {this.progressTracker() * 100} % of your challenges so far! {this.progressTrackerEmotions()}</p>
+                    </Row>
+
                     {/* USER INFO */}
                     <Row>
                         {this.props.currentUser ? 
                         <Container>
                             <div className='side-info-container'>
-                            <Row>
-                                <strong className='bio-side'>Bio; {this.props.currentUser.bio}</strong>
+                            <Row className='user-bio-box'>
+                                <em className='bio-side'><small className='pop-red'>Bio;</small> {this.props.currentUser.bio}</em>
                             </Row>
                             <Row>
-                                <strong className='langs-side'>Langs; {this.props.currentUser.programming_preferences}</strong> 
+                                <em className='langs-side'><small className='pop-red'>Langs;</small> {this.props.currentUser.programming_preferences}</em> 
                             </Row>
                             <Row className='side-edit-button'>
                                 <button onClick={this.toggleEditFormForUser}>Edit Info</button>
@@ -202,16 +209,10 @@ class UserShow extends Component {
                                     updateCurrentUser={this.props.updateCurrentUser}/> : 
                                     null }
                             </Row>
-
                             </div>
-                            {/* PROGRESS TRACKER  */}
-                            <Row>
-                            <p>Youve completed {this.progressTracker() * 100} % of your challenges so far! {this.progressTrackerEmotions()}</p>
-                            </Row>
-
-
+                          
                             <div className='follow-boxes'>
-                            <Row>
+                            <Row className='user-follow-box'>
                                 <ul>
                                 <em>Followed By :</em>
                                 {this.state.followers.length > 0 ? 
@@ -219,7 +220,7 @@ class UserShow extends Component {
                                 {this.state.followers.map(follow => 
                                     <li>
                                     <Image className='follow-image' src={follow.follower.img_url}/>
-                                    <em>{follow.follower.username}</em>
+                                    <NavLink to={`/users/${follow.follower.id}`} className='user-link'>{follow.follower.username}</NavLink>
                                     </li>)} 
                                     </> : 
                                     null 
@@ -234,7 +235,7 @@ class UserShow extends Component {
                                 {this.state.following.map(follow => 
                                     <li>
                                     <Image className='follow-image' src={follow.followee.img_url}/>
-                                    <em>{follow.followee.username}</em>
+                                    <NavLink to={`users/${follow.followee.id}`} className='user-link'>{follow.followee.username}</NavLink>
                                     </li>)} 
                                     </> : 
                                     null 

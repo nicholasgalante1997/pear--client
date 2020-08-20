@@ -6,6 +6,7 @@ import Comment from './Comment'
 import Card from 'react-bootstrap/Card'
 import * as action from '../../modules/actions/actionCreators'
 import {connect} from 'react-redux'
+import {NavLink} from 'react-router-dom'
 
 
 class Post extends React.Component {
@@ -138,6 +139,7 @@ class Post extends React.Component {
   
 
     render () {
+        console.log(this.props)
     return ( 
         <>
         {/* MAIN CONTENT ROW */}
@@ -148,7 +150,13 @@ class Post extends React.Component {
             </Col>
             {/* CONTENT */}
             <Col>
-                <strong>{this.props.post.user.username}, On <em className='post-topic' name={this.props.post.topic}>{this.props.post.topic}</em>;</strong>
+                <strong>
+                    { this.props.currentUser ?
+                    <NavLink to={`/users/${this.props.post.user.id}`}>{this.props.post.user.username}</NavLink> : 
+                    <em>{this.props.post.user.username}</em>
+                    }
+                    , On <em className='post-topic' name={this.props.post.topic}>{this.props.post.topic}</em>;
+                    </strong>
                 <p>{this.props.post.text_content}</p>
             </Col>
             {/* EDIT FORM AND VIEW COMMENTS */}

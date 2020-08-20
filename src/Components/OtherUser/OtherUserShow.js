@@ -5,18 +5,29 @@ import Col from 'react-bootstrap/Col'
 import {connect} from 'react-redux'
 import Image from 'react-bootstrap/Image'
 import * as action from '../../modules/actions/actionCreators'
+import {NavLink} from 'react-router-dom'
+import OtherUserPost from './OtherUserPosts'
 
 class OtherUserShow extends Component {
     state = { 
         otherUser: {},
-        myPosts: []
-     }
+        myPosts: [],
+    }
 
     componentDidMount(){
         const id = this.props.match.params.id 
         fetch(`http://localhost:3001/api/v1/users/${id}`)
         .then(r => r.json())
         .then(user => this.setState({otherUser: user}))
+    }
+
+    componentDidUpdate(prevProps, prevState){
+        if (prevProps.match.params.id !== this.props.match.params.id) {
+            const id = this.props.match.params.id 
+            fetch(`http://localhost:3001/api/v1/users/${id}`)
+            .then(r => r.json())
+            .then(user => this.setState({otherUser: user}))
+        }
     }
 
     // FIND MY FOLLOWERS 
@@ -127,7 +138,7 @@ class OtherUserShow extends Component {
                                 {this.findMyFollowers().map(follow =>  
                                 <li>
                                     <Image className='follow-image-shrink' src={follow.follower.img_url}/>
-                                    <small className='force-shrink-font'>{follow.follower.username}</small>
+                                    <NavLink to={`/users/${follow.follower.id}`} className='force-shrink-font'>{follow.follower.username}</NavLink>
                                 </li>)}    
                             </ul>   
                        </Row>
@@ -137,29 +148,32 @@ class OtherUserShow extends Component {
                                 {this.findWhoIFollow().map(follow =>  
                                 <li>
                                     <Image className='follow-image-shrink' src={follow.followee.img_url}/>
-                                    <small className='force-shrink-font'>{follow.followee.username}</small>
+                                    <NavLink to={`/users/${follow.followee.id}`} className='force-shrink-font'>{follow.followee.username}</NavLink>
                                 </li>)}    
                             </ul>   
                        </Row>
                     </Col>
-                    <Col md={5} className='other-user-posts'>
+                    <Col md={6} className='other-user-posts'>
                         <Row>
                         <em className='pop-red-push-posts'>Posts;</em>
                         </Row>
                         <Row>
                         <ul>
                             {this.filterForMyPosts().map(post => 
-                            <li>
-                            <strong>On <em className='pop-yellow'>{post.topic}</em> ; <small>{post.text_content}</small></strong>
-                            </li>
+                            <>
+                            <Row>
+                                <OtherUserPost post={post} currentUser={this.props.currentUser} />
+                                {/* <strong>On <em className='pop-yellow'>{post.topic}</em> ; <small>{post.text_content}</small></strong> */}
+                            </Row>
+                            </>
                             )}
                         </ul>
                         </Row>
                         </Col>
-                        <Col md={5} className='other-user-challenges'>
+                        <Col md={4} className='other-user-challenges'>
                             <em className='pop-red'>Challenges</em>
                             <ul>
-                            {this.filterForMyChallenges().map(my_challenge => <li>{my_challenge.challenge.title}</li>)}
+                            {this.filterForMyChallenges().map(my_challenge => <li><em className='pop-red'>{my_challenge.challenge.topic}</em>: {my_challenge.challenge.title}, <small>{my_challenge.challenge.difficulty}</small></li>)}
                             </ul>
                         </Col>
                     </Row>
@@ -183,7 +197,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         addFollow: (follow) => dispatch(action.addFollow(follow)),
-        removeFollow: (follow) => dispatch(action.removeFollow(follow))
+        removeFollow: (follow) => dispatch(action.removeFollow(follow)),
+        addComment: (comment) => dispatch(action.addComment(comment))
     }
 }
  
