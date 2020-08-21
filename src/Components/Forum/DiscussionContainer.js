@@ -10,7 +10,7 @@ class DiscussionContainer extends Component {
 
     // SEARCH BAR FUNCTIONALITY
     filterFunc = () => {
-        let sortedPosts = [...this.props.posts]
+        let sortedPosts = [...this.props.posts].reverse()
         return sortedPosts.filter((post) => post.topic.toLowerCase().includes(this.state.currentTopic.toLowerCase()))
     }
 

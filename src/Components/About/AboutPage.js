@@ -15,10 +15,43 @@ const AboutPage = () => {
                     </Col>
                     <Col>
                         <heavy className='about-header'> Come on Down and Meet Some Devs!</heavy>
-                        <p></p>
+                        <p>All these Devs here are part of our FlatIron SE Special, mixed in with a little dirt, little less sun, and a whole lot of 'Tegridy</p>
                     </Col>
+                    <Row>
+                        <Col md={2}>
+                            <Image className='about-image' src='https://vignette.wikia.nocookie.net/southpark/images/c/c2/Craig-tucker.png/revision/latest/scale-to-width-down/340?cb=20160402121203'/>
+                        </Col>
+                        <Col md={10}>
+                            <strong>Hi Im 'Craig' Dwyer,</strong>
+                            <p>Im the head of creative design here at pearProgramming. You may have heard of my hit astrology app Zodiapp, funny story about that app; was actually supposed to be a music application but i kept spelling signs instead of sings and halfway through I just converted the whole project to zodiac signs. Adapt and overcome baby.</p>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col md={10}>
+                            <strong>Hi Im Sean Padden,</strong>
+                            <p>and I head the operations and day to day problem solving of the team. From my humble beginnings as an apprentice woodworker, I crafted my first computer together from pine nuts and cherry wood, and from that wood computer Dell was born.</p>
+                        </Col>
+                        <Col md={2}>
+                            <Image className='about-image' src='https://southparkstudios.mtvnimages.com/avatar/store/20200819/20200819_161939_77eb1f9353224cb11a45a3900c871a21.png'/>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col md={2}>
+                            <Image className='about-image' src='https://southparkstudios.mtvnimages.com/avatar/store/20200820/20200820_152316_8bb0aae8793e49dbbc95ba7d35800683.png'/>
+                        </Col>
+                        <Col md={10}>
+                            <strong>Hi Im Yoan Ante,</strong>
+                            <p>Im the head of front end design here at pearProgramming, and yeah you guessed it that includes space exploration. Little known fact, i designed the first ruby on rails application to run on the surface of mars. What was the app you ask? Come to Mars and find out.</p>
+                        </Col>
+                    </Row>
                 </Row>
             </Row>
+            <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
         </Container>
      );
 }

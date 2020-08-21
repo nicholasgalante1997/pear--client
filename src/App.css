@@ -53,6 +53,38 @@
   color: green;
 }
 
+.other-user-post-row {
+  background-color: #d9e3fe;
+  border-radius: 15px;
+  max-width: 550px;
+  border-color: white;
+  border-style: solid;
+  color: blue;
+  justify-content: center;
+}
+
+.form-row {
+  padding-left: 50px;
+}
+
+.other-comment {
+  padding-left: 25px;
+}
+
+.left-padding {
+  padding-left:100px;
+  float: right;
+}
+.other-user-comment-form {
+  justify-content: center;
+  padding-left: 100px; 
+}
+
+.about-image {
+  height: 150px;
+  width: 150px;
+}
+
 .smaller {
   font-size: 12px;
 }
@@ -436,7 +468,6 @@ button {
 .challenge-desc-col {
   border-style: solid;
   border-width: 1px;
-  color:green;
   border-radius:15px;
 }
 

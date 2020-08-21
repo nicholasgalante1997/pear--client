@@ -54,11 +54,11 @@ class OtherUserPost extends Component {
             <>
             {this.findMyComments().map(comment => 
             <Row>
-            <small>{comment.user.username}: {comment.text_content}</small>
+            <small className='other-comment'>{comment.user.username}: {comment.text_content}</small>
             </Row>)}
-            <Row>
-            <form onSubmit={this.handleCommentSubmit}>
-            <input type='text' value={this.state.newComment} name='newComment' placeholder='comment...' onChange={this.handleChange}/>
+            <Row className='form-row'>
+            <form onSubmit={this.handleCommentSubmit} className='other-user-new-comment-form'>
+            <input type='text' value={this.state.newComment} name='newComment' placeholder='comment...' onChange={this.handleChange} className='left-padding'/>
             <button type='submit'>hit me</button>
             </form>
             </Row>
@@ -76,7 +76,7 @@ class OtherUserPost extends Component {
     render() { 
         console.log(this.props, this.findMyComments())
         return ( 
-            <Row>
+            <Row className='other-user-post-row'>
                 <Col md={8}>
             <strong>On <em className='pop-yellow'>{this.props.post.topic}</em> ; <small>{this.props.post.text_content}</small></strong>
             </Col>
